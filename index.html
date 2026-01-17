@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="pageTitle">Tralecto: Su Brújula en el Desarrollo de Software</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Estilo para hacerlo discreto */
+        .admin-link-discreet {
+            position: fixed; /* Lo fija en la esquina */
+            bottom: 5px; 
+            right: 5px; 
+            color: #f0f0f0; /* Color muy claro, casi invisible sobre fondo claro */
+            font-size: 10px; 
+            opacity: 0.1; /* Muy transparente */
+            transition: opacity 0.3s;
+            text-decoration: none;
+            z-index: 1000; /* Asegura que esté por encima de otros elementos */
+        }
+        .admin-link-discreet:hover {
+            opacity: 0.8; /* Se hace visible al pasar el mouse */
+            color: #007bff;
+        }
+    </style>
+    </head>
+<body>
+
+    <header class="header" id="mainHeader">
+        <div class="container">
+            <a href="login.html" class="btn primary-btn header-btn header-login-btn" data-key="btnClientAccess">Acceso Clientes</a>
+            <img src="imagen_circular_recortada.png" alt="Logo de Tralecto" class="header-logo-img">
+            <h1 class="logo"><a href="#inicio">Tralecto</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="#inicio" data-key="navInicio">Inicio</a></li>
+                    <li><a href="#mision" data-key="navMision">Misión</a></li>
+                    <li><a href="#video-explicativo" data-key="navVideo">Video</a></li> 
+                    <li><a href="#valores" data-key="navValores">Valores</a></li>
+                    <li><a href="#servicios" data-key="navServicios">Servicios</a></li>
+                    <li><a href="#contacto" data-key="navContacto">Contacto</a></li>
+                </ul>
+            </nav>
+            <a href="proceso.html" class="btn secondary-btn header-btn header-proceso-btn" data-key="btnDevRoute">Ruta de Desarrollo</a>
+            <img src="Diseño sin título (1).png"Logo SENA" class="header-sena-logo">
+        </div>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div id="dynamic-bg" class="dynamic-bg"></div> 
+        <div class="container">
+            <h2 data-key="heroTitle">Navegando con codigo experto.</h2>
+            <p data-key="heroSubtitle">Somos su socio estratégico en la transformación digital. Construimos soluciones de software sólidas y escalables.</p>
+            <a href="#servicios" class="btn primary-btn" style="margin-right: 20px;" data-key="btnServices">Ver Servicios</a>
+            <a href="#contacto" class="btn secondary-btn" data-key="btnContact">Contáctenos</a>
+        </div>
+    </section>
+
+    <section id="mision" class="section">
+        <div class="container">
+            <h2 class="section-title" data-key="misionTitle">Nuestra Esencia</h2>
+            <div class="mision-vision-grid">
+                <div class="card">
+                    <i class="fas fa-bullseye fa-3x" style="color: var(--primary-color);"></i>
+                    <h3 data-key="cardMisionTitle">Misión</h3>
+                    <p data-key="cardMisionText">Convertir ideas ambiciosas en aplicaciones de alto rendimiento, proporcionando a nuestros clientes la herramienta digital precisa para el crecimiento y la eficiencia operativa.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-rocket fa-3x" style="color: var(--secondary-color);"></i>
+                    <h3 data-key="cardVisionTitle">Visión</h3>
+                    <p data-key="cardVisionText">Ser reconocidos como la brújula indispensable para empresas que buscan liderar su sector a través de la innovación tecnológica y soluciones de software diseñadas para el futuro.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="video-explicativo" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title" data-key="videoTitle">Video Explicativo</h2>
+            <div class="video-wrapper">
+                <iframe 
+                    width="560" 
+                    height="315" 
+                    src="https://www.youtube-nocookie.com/embed/-8OWxRG9dBY" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+    <section id="valores" class="section">
+        <div class="container">
+            <h2 class="section-title" data-key="valoresTitle">Valores Fundamentales</h2>
+            <div class="values-grid">
+                <div class="value-item">
+                    <i class="fas fa-cogs fa-2x" style="color: var(--primary-color);"></i>
+                    <h4 data-key="valIngenieriaTitle">Ingeniería Sólida</h4>
+                    <p data-key="valIngenieriaText">Priorizamos la arquitectura limpia y el código mantenible.</p>
+                </div>
+                <div class="value-item">
+                    <i class="fas fa-handshake fa-2x" style="color: var(--secondary-color);"></i>
+                    <h4 data-key="valTransparenciaTitle">Transparencia Total</h4>
+                    <p data-key="valTransparenciaText">Proceso de desarrollo abierto y comunicación constante.</p>
+                </div>
+                <div class="value-item">
+                    <i class="fas fa-lightbulb fa-2x" style="color: var(--accent-color);"></i>
+                    <h4 data-key="valAdaptabilidadTitle">Adaptabilidad Ágil</h4>
+                    <p data-key="valAdaptabilidadText">Nos ajustamos a las necesidades cambiantes del mercado.</p>
+                </div>
+                <div class="value-item">
+                    <i class="fas fa-star fa-2x" style="color: var(--primary-color);"></i>
+                    <h4 data-key="valCompromisoTitle">Compromiso con el Éxito</h4>
+                    <p data-key="valCompromisoText">Solo finalizamos cuando su solución está funcionando perfectamente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title" data-key="serviciosTitle">Servicios que Ofrecemos</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-mobile-alt fa-3x" style="color: var(--primary-color); margin-bottom: 15px;"></i>
+                    <h3 data-key="servMovilTitle">Desarrollo Móvil</h3>
+                    <p data-key="servMovilText">Aplicaciones nativas e híbridas (iOS y Android) optimizadas para rendimiento y experiencia de usuario.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-desktop fa-3x" style="color: var(--secondary-color); margin-bottom: 15px;"></i>
+                    <h3 data-key="servWebTitle">Plataformas Web</h3>
+                    <p data-key="servWebText">Creación de sistemas complejos, portales web y APIs escalables con frameworks modernos.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-cloud fa-3x" style="color: var(--accent-color); margin-bottom: 15px;"></i>
+                    <h3 data-key="servjuegosTitle">Desarollo de juegos </h3>
+                    <p data-key="servjuegosText">Creamos juegos rpg 2D 3D a tu gustos y con las especificaciones que quieras.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="section">
+        <div class="container">
+            <h2 class="section-title" data-key="contactTitle">Hablemos de su Proyecto</h2>
+            <p class="tagline" style="text-align: center; margin-bottom: 50px;" data-key="contactTagline">Complete el formulario y nos pondremos en contacto con usted en menos de 24 horas.</p>
+
+            <div class="contact-info">
+                <p><i class="fas fa-phone-alt"></i> <strong data-key="contactPhoneLabel">Teléfono:</strong> +57 317 348 2939</p>
+                <p><i class="fas fa-envelope"></i> <strong data-key="contactEmailLabel">Correo Electrónico:</strong> Tralecto26@gmail.com</p>
+            </div>
+            
+            <form class="contact-form" action="#" method="POST">
+                <input type="text" name="name" data-key="phName" placeholder="Su Nombre" required>
+                <input type="email" name="email" data-key="phEmail" placeholder="Su Correo Electrónico" required>
+                <textarea name="message" data-key="phMessage" placeholder="¿Cómo podemos ayudarle? (Detalle su proyecto)" required></textarea>
+                <button type="submit" class="btn primary-btn" data-key="btnSend">Enviar Consulta</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p data-key="footerText">&copy; 2025 Tralecto. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <div id="chatbot-container" class="chatbot-hidden">
+        <div class="chatbot-header">
+            <span data-key="chatbotHeaderTitle">Tralecto Bot de Requisitos</span>
+            <button id="close-chatbot-btn" class="close-btn">&times;</button>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input-field" data-key="chatbotInputPlaceholder" placeholder="Escribe tu idea (ej. 'Quiero una app')...">
+            <button id="chatbot-send-btn" class="btn primary-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    
+    <button id="open-chatbot-btn" class="float-btn chatbot-btn" title="Chatea con nuestro Bot">
+        <i class="fas fa-robot"></i> 
+    </button>
+    
+    <div class="floating-social-buttons">
+        
+        <div class="language-switcher-float">
+            <button id="lang-button" class="float-btn lang-btn" title="Cambiar Idioma">
+                <i class="fas fa-globe"></i>
+            </button>
+            <div id="lang-options" class="language-options-float">
+                <a href="#" data-lang="es">Español</a>
+                <a href="#" data-lang="en">English</a>
+                <a href="#" data-lang="pt">Português</a>
+                <a href="#" data-lang="zh">中文 (Mandarin)</a>
+            </div>
+        </div>
+        
+        <a href="https://wa.me/573173482939" target="_blank" class="float-btn whatsapp-btn" title="Contáctanos por WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://instagram.com/tu_usuario" target="_blank" class="float-btn instagram-btn" title="Síguenos en Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://facebook.com/tu_pagina" target="_blank" class="float-btn facebook-btn" title="Encuéntranos en Facebook">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+    </div>
+
+    <script src="dynamic-background.js"></script>
+    <script src="script.js"></script>
+    <script src="chatbot.js"></script>
+    
+    <a href="admin-login.html" class="admin-link-discreet" title="Panel de Administración">Admin</a>
+    </body>
+</html>

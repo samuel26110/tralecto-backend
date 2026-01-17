@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="adminLoginTitle">Acceso de Administrador | Tralecto</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body style="margin: 0; padding: 0;">
+
+    <main class="login-main">
+        
+        <div class="visual-panel">
+            <h1 style="color: var(--white);">Tralecto</h1>
+            <h2 data-key="adminPanelTitle">Panel de Administración</h2>
+            <p data-key="adminPanelText">Acceso exclusivo para la gestión y revisión de Leads generados por el Chatbot.</p>
+            
+            <h3 data-key="adminTitleFeatures">Seguridad</h3>
+            <div class="features">
+                <i class="fas fa-lock" title="Acceso Seguro"></i>
+                <i class="fas fa-user-shield" title="Token Requerido"></i>
+                <i class="fas fa-server" title="Backend Protegido"></i>
+            </div>
+
+            <a href="index.html" class="btn primary-btn" data-key="navInicio">Inicio</a>
+        </div>
+
+        <div class="form-panel">
+            <div class="login-container">
+                
+                <div id="login-view" style="display: block; opacity: 1;">
+                    <h2 data-key="adminSubtitle">Ingresar Token Secreto</h2>
+                    
+                    <form class="login-form">
+                        <input type="password" id="admin-token" placeholder="Token Secreto" required>
+                        <button type="button" id="login-btn" class="btn primary-btn" data-key="btnLogin">Acceder al Panel</button>
+                    </form>
+                    
+                    <p id="login-message" style="color: red; margin-top: 15px;"></p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    
+    <div class="floating-social-buttons">
+        <div class="language-switcher-float">
+            <button id="lang-button" class="float-btn lang-btn" title="Cambiar Idioma">
+                <i class="fas fa-globe"></i>
+            </button>
+            <div id="lang-options" class="language-options-float">
+                <a href="#" data-lang="es">Español</a>
+                <a href="#" data-lang="en">English</a>
+                <a href="#" data-lang="pt">Português</a>
+                <a href="#" data-lang="zh">中文 (Mandarin)</a>
+            </div>
+        </div>
+        <a href="https://wa.me/573173482939" target="_blank" class="float-btn whatsapp-btn" title="Contáctanos por WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://instagram.com/tu_usuario" target="_blank" class="float-btn instagram-btn" title="Síguenos en Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <script>
+        const loginBtn = document.getElementById('login-btn');
+        const tokenInput = document.getElementById('admin-token');
+        const loginMessage = document.getElementById('login-message');
+
+        loginBtn.addEventListener('click', attemptAdminLogin);
+        tokenInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                attemptAdminLogin();
+            }
+        });
+
+        function attemptAdminLogin() {
+            const token = tokenInput.value.trim();
+            if (token === "") {
+                loginMessage.textContent = "Por favor, ingresa el Token Secreto.";
+                return;
+            }
+
+            // Guardar el token de forma temporal en la sesión del navegador
+            sessionStorage.setItem('adminToken', token);
+            loginMessage.textContent = "Token guardado, intentando acceder al panel...";
+            
+            // Redirigir a la página del panel de administración
+            window.location.href = 'admin.html'; 
+        }
+    </script>
+</body>
+</html>

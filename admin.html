@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración de Leads - Tralecto</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos específicos del panel */
+        body { 
+            background-color: #f4f4f9; 
+            padding: 20px;
+        }
+        .container-admin {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 { color: var(--primary-color); }
+        
+        table {
+            width: 100%;
+            border-collapse: separate; /* Cambiado de collapse */
+            border-spacing: 0;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: var(--secondary-color);
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        /* Color de filas según el estado */
+        tr[data-managed="true"] {
+            background-color: #e6ffe6; /* Fondo verde claro si está gestionado */
+            opacity: 0.7;
+        }
+        
+        /* Estilos de botones de acción */
+        .action-btn {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 12px;
+            transition: background-color 0.3s;
+        }
+        .btn-manage {
+            background-color: #28a745; /* Verde */
+            color: white;
+        }
+        .btn-manage:hover {
+            background-color: #1e7e34;
+        }
+        .btn-delete {
+            background-color: #dc3545; /* Rojo */
+            color: white;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+        /* Ocultar la sección de login (ya la manejamos en admin-login.html) */
+        #login-section { display: none !important; }
+
+    </style>
+</head>
+<body>
+    <div class="container-admin">
+        <h1>Panel de Administración de Leads</h1>
+        <a href="admin-login.html" class="btn secondary-btn" id="logout-btn" onclick="sessionStorage.removeItem('adminToken')">Cerrar Sesión</a>
+
+        <h2>Leads Capturados</h2>
+        <table id="leads-table">
+            <thead>
+                <tr>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Tipo de Proyecto</th>
+                    <th>Mensaje Inicial</th>
+                    <th>Acciones</th> </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+        <p id="loading-message" style="text-align: center; margin-top: 20px;">Cargando leads...</p>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

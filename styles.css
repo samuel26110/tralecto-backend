@@ -1,0 +1,823 @@
+/* VARIABLES Y RESET BÁSICO */
+:root {
+    --primary-color: #04458a; /* Azul vibrante, ideal para tecnología */
+    --secondary-color: #28a745; /* Verde para acciones importantes (botones) */
+    --accent-color: #ffc107; /* Amarillo para resaltar detalles */
+    --dark-text: #343a40;
+    --light-bg: #f8f9fa; /* Fondo gris muy suave */
+    --white: #ffffff;
+    --font-main: 'Poppins', sans-serif;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-heavy: 0 8px 15px rgba(0, 0, 0, 0.2);
+    /* Colores específicos de redes sociales */
+    --whatsapp-color: #25d366;
+    --instagram-color: #E1306C;
+    --facebook-color: #1877F2;
+    /* Color de fondo para el panel visual del login y nueva página de proceso */
+    --login-dark-bg: #0b1c31; 
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--dark-text);
+    line-height: 1.6;
+    background-color: var(--white);
+    overflow-x: hidden;
+    scroll-behavior: smooth; 
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* ------------------------------------ */
+/* CABECERA (HEADER) */
+/* ------------------------------------ */
+.header {
+    background-color: var(--white);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); 
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: box-shadow 0.3s, background-color 0.3s; 
+}
+
+.header.scrolled {
+    box-shadow: var(--shadow-heavy);
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.logo a {
+    text-decoration: none;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--primary-color);
+    transition: color 0.3s;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+nav {
+    flex-grow: 1; 
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center; 
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--dark-text);
+    font-weight: 600;
+    padding: 10px 10px;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+nav ul li a:hover {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* ESTILO PARA LOS BOTONES EN EL HEADER */
+.header-btn {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    flex-shrink: 0; 
+}
+
+/* * CAMBIO APLICADO AQUÍ: 
+ * header-proceso-btn (Ruta de Desarrollo) ahora va a la derecha (orden alto) 
+ */
+.header-proceso-btn {
+    order: 3; 
+    margin-right: 0; 
+    margin-left: 20px; /* Usa el estilo de margen del lado derecho */
+}
+
+/* * CAMBIO APLICADO AQUÍ: 
+ * header-login-btn (Acceso Clientes) ahora va a la izquierda (orden bajo) 
+ */
+.header-login-btn {
+    order: -2; 
+    margin-left: 0; 
+    margin-right: 20px; /* Usa el estilo de margen del lado izquierdo */
+}
+
+
+/* INICIO DE LAS MODIFICACIONES DE LOGO */
+
+/* ESTILO PARA EL NUEVO LOGO EN IMAGEN (TAMAÑO INCREMENTADO) */
+.header-logo-img {
+    height: 120px; /* MODIFICACIÓN: Aumento a 70px */
+    width: auto;
+    object-fit: contain;
+    order: -1; /* Orden para que vaya a la izquierda, después del botón de acceso (-2) */
+    margin-right: 15px; /* Espacio a la derecha antes del logo de texto/título */
+}
+
+/* AJUSTE DE POSICIÓN PARA EL LOGO DE TEXTO */
+.header .logo {
+    order: 0; /* Orden predeterminado/central. Asegura que va después de la imagen del logo (-1) */
+}
+
+/* FIN DE LAS MODIFICACIONES DE LOGO */
+
+
+/* ------------------------------------ */
+/* SECCIONES GENÉRICAS Y BOTONES */
+/* ------------------------------------ */
+
+.hero {
+    background: linear-gradient(rgba(5, 2, 34, 0.788), rgba(2, 4, 97, 0.65)), url('https://via.placeholder.com/1920x600/007bff/ffffff?text=Tralecto+Desarrollo+Software') no-repeat center center/cover;
+    color: var(--white);
+    padding: 100px 0;
+    text-align: center;
+    position: relative; 
+    overflow: hidden; 
+}
+
+.hero .container {
+    position: relative;
+    z-index: 2; 
+}
+
+.dynamic-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; 
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.primary-btn {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border: 2px solid var(--secondary-color);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.primary-btn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(40, 167, 69, 0.4);
+}
+
+.secondary-btn {
+    background-color: var(--white);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.1);
+}
+
+.secondary-btn:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 123, 255, 0.3);
+}
+
+.section {
+    padding: 60px 0;
+}
+
+.bg-light {
+    background-color: var(--light-bg);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5em;
+    margin: 0 auto 40px;
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--accent-color);
+    display: table; 
+    padding-bottom: 10px;
+}
+
+/* ------------------------------------ */
+/* GRIDS, VIDEO, CONTACTO, FOOTER (Sin Cambios Estructurales) */
+/* ------------------------------------ */
+
+.mision-vision-grid { display: flex; gap: 30px; text-align: center; }
+.mision-vision-grid .card { flex: 1; padding: 30px; background-color: var(--white); border-left: 5px solid var(--primary-color); box-shadow: var(--shadow); border-radius: 8px; transition: transform 0.3s; }
+.values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: center; }
+.value-item { padding: 30px 20px; background-color: var(--white); border-radius: 8px; box-shadow: var(--shadow); transition: transform 0.3s, box-shadow 0.3s; }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.service-card { background-color: var(--white); padding: 30px; border-radius: 8px; box-shadow: var(--shadow); text-align: center; border-bottom: 4px solid var(--primary-color); transition: transform 0.3s, box-shadow 0.3s; }
+
+.video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 900px; margin: 0 auto; box-shadow: var(--shadow-heavy); border-radius: 8px; }
+.video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+.floating-social-buttons { position: fixed; bottom: 20px; right: 20px; z-index: 900; display: flex; flex-direction: column; gap: 10px; }
+.float-btn { display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; text-decoration: none; color: var(--white); font-size: 1.5em; box-shadow: var(--shadow-heavy); transition: transform 0.3s, opacity 0.3s, background-color 0.3s; }
+.float-btn:hover { transform: scale(1.1) translateY(-2px); opacity: 0.9; }
+.whatsapp-btn { background-color: var(--whatsapp-color); }
+.instagram-btn { background-color: var(--instagram-color); }
+.facebook-btn { background-color: var(--facebook-color); }
+
+
+/* ------------------------------------ */
+/* ESTILOS: BOTÓN DE IDIOMA FLOTANTE (NUEVOS ESTILOS) */
+/* ------------------------------------ */
+.language-switcher-float {
+    position: relative; 
+}
+
+/* Estilo para el botón de idioma (usa la base .float-btn) */
+.lang-btn {
+    background-color: var(--primary-color); /* Color distintivo, ej. azul */
+    border: none;
+    cursor: pointer;
+    margin-bottom: 5px; /* Espacio antes del siguiente botón social */
+}
+
+/* Menú Desplegable Flotante */
+.language-options-float {
+    position: absolute;
+    bottom: 0; /* Lo colocará justo arriba del botón */
+    right: 60px; /* Separación del borde de la pantalla (50px del botón + 10px) */
+    background-color: var(--white);
+    border-radius: 5px;
+    box-shadow: var(--shadow-heavy);
+    overflow: hidden;
+    z-index: 900; 
+    min-width: 120px;
+    
+    /* Por defecto, está OCULTO */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(10px); /* Para la animación de entrada/salida */
+    transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+}
+
+.language-options-float.show {
+    /* Mostrar cuando se añade la clase 'show' con JavaScript */
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.language-options-float a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: var(--dark-text);
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.language-options-float a:hover {
+    background-color: var(--light-bg);
+    color: var(--primary-color);
+}
+
+
+/* ------------------------------------ */
+/* CONTACTO, FOOTER, LOGIN, PROCESO (Sin Cambios Estructurales) */
+/* ------------------------------------ */
+
+.contact-info { text-align: center; margin-bottom: 40px; font-size: 1.1em; }
+.contact-form { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+.contact-form input[type="text"], .contact-form input[type="email"], .contact-form textarea { width: 100%; padding: 15px; border: 1px solid #ced4da; border-radius: 5px; font-family: var(--font-main); font-size: 1em; transition: border-color 0.3s, box-shadow 0.3s; }
+.contact-form textarea { resize: vertical; min-height: 150px; }
+.contact-form button.primary-btn { cursor: pointer; border: none; }
+
+footer { background-color: var(--dark-text); color: var(--light-bg); text-align: center; padding: 20px 0; font-size: 0.9em; }
+
+/* ESTILOS: PÁGINA DE LOGIN */
+.login-main { min-height: 100vh; display: grid; grid-template-columns: 40% 60%; margin: 0; padding: 0; }
+.visual-panel { background: var(--login-dark-bg); color: var(--white); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; text-align: center; background-image: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(0, 0, 0, 0.5)); }
+.visual-panel h2 { font-size: 2.5em; margin-bottom: 20px; font-weight: 700; color: var(--accent-color); }
+.visual-panel .features i { font-size: 1.5em; color: var(--primary-color); margin: 0 10px; }
+.form-panel { background: var(--white); display: flex; justify-content: center; align-items: center; padding: 40px; }
+.login-container { width: 100%; max-width: 400px; padding: 40px; text-align: center; border-radius: 10px; box-shadow: none; }
+.login-container h2 { color: var(--dark-text); margin-bottom: 30px; font-size: 2em; border-bottom: 3px solid var(--primary-color); display: inline-block; padding-bottom: 5px; }
+.login-form input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ced4da; border-radius: 8px; font-size: 1em; transition: border-color 0.3s, box-shadow 0.3s; }
+.form-toggle { margin-top: 20px; font-size: 0.9em; }
+.form-toggle button { background: none; border: none; color: var(--primary-color); cursor: pointer; text-decoration: underline; font-weight: 600; padding: 5px 0; transition: color 0.3s; }
+.login-container .btn { width: 100%; padding: 14px 0; font-size: 1.1em; margin-top: 10px; }
+
+
+/* ESTILOS: PÁGINA DE PROCESO (proceso.html) - NUEVA RUTA VERTICAL */
+
+.process-page-hero {
+    min-height: 100vh;
+    padding: 100px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+#interactive-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: block;
+}
+
+.process-content-overlay {
+    position: relative;
+    z-index: 5;
+    display: block;
+    width: 100%;
+}
+
+/* Nuevo Contenedor Grid para la Usabilidad: Dos Columnas */
+.process-interactive-grid {
+    display: grid;
+    /* Invertimos el orden: Hub (ruta) a la izquierda, Tarjeta de Detalle a la derecha */
+    grid-template-columns: 1fr 1fr; /* Mismo tamaño para ambos */
+    gap: 40px;
+    align-items: center; /* Centrar verticalmente los contenedores */
+    min-height: 500px; /* Asegurar que el contenedor de la ruta tenga espacio */
+}
+
+/* El Título y el Tagline deben abarcar ambas columnas */
+.section-title {
+    grid-column: 1 / -1; 
+}
+
+.tagline {
+    grid-column: 1 / -1;
+    max-width: 800px;
+    margin: 0 auto 50px;
+}
+
+/* --- ESTILOS DE RUTA: ESTRUCTURA LINEAL Y CONECTADA --- */
+
+.process-hub-container {
+    position: relative;
+    width: 100%; 
+    height: 100%; 
+    min-height: 500px; 
+    margin: 0 auto;
+    display: flex;
+    justify-content: center; 
+    align-items: stretch; 
+}
+
+/* Línea Conectora (NUEVO ELEMENTO) */
+.process-hub-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px; 
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2); 
+    z-index: 1; 
+    border-radius: 5px;
+}
+
+/* Hub Central - Ahora representa el 'Ciclo Ágil' como elemento fuera de la línea */
+#hub-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3; /* Sobre la línea */
+}
+.process-hub {
+    width: 100px; 
+    height: 100px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: 700;
+    /* Efecto de anillo y brillo */
+    box-shadow: 0 0 0 8px rgba(0, 123, 255, 0.2), 
+                0 0 15px rgba(0, 123, 255, 0.8);
+}
+
+.process-hub i {
+    font-size: 1.8em;
+    margin-bottom: 3px;
+}
+.process-hub span { font-weight: 600; font-size: 0.9em; }
+
+/* Nodos del Proceso (Pasos) - Posicionamiento Lineal */
+.process-node {
+    position: absolute;
+    width: 70px; 
+    height: 70px;
+    border-radius: 50%;
+    /* Efecto Glassmorphism */
+    background: rgba(40, 167, 69, 0.4); 
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    cursor: pointer;
+    /* Sombra de "Glow" sutil */
+    box-shadow: 0 0 15px rgba(40, 167, 69, 0.5), 
+                inset 0 0 10px rgba(255, 255, 255, 0.2); 
+    transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+    z-index: 2; /* Sobre la línea */
+}
+
+.process-node:hover {
+    transform: scale(1.1);
+    background: rgba(0, 123, 255, 0.5); 
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.7), 
+                inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.process-node.active {
+    transform: scale(1.2);
+    /* Borde de anillo brillante */
+    border: 3px solid var(--accent-color);
+    background: var(--primary-color);
+    box-shadow: 0 0 30px var(--accent-color), 
+                0 0 15px var(--primary-color);
+}
+
+/* Posicionamiento Vertical de los Nodos */
+.node-1 { top: 0; left: 50%; transform: translate(-50%, -50%); } 
+/* Los nodos 2 y 4 van a los lados para evitar choque con el hub */
+.node-2 { top: 25%; left: 30%; transform: translate(-50%, -50%); background: rgba(0, 123, 255, 0.4); }
+.node-3 { top: 50%; left: 50%; transform: translate(-50%, -50%); } /* Queda cubierto por el hub, ¡pero es el centro! */
+.node-4 { top: 75%; left: 70%; transform: translate(-50%, -50%); background: rgba(0, 123, 255, 0.4); }
+.node-5 { bottom: 0; left: 50%; transform: translate(-50%, 50%); } 
+
+/* Tarjeta de Detalle (Se mantiene a la derecha) */
+.process-detail-card {
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-heavy);
+    max-width: none;
+    text-align: left;
+    min-height: 400px; 
+    margin: 0; 
+    transition: opacity 0.2s ease-in-out;
+    align-self: center; /* Centrar la tarjeta en la mitad de la ruta */
+}
+
+.process-detail-card h3 {
+    margin-top: 0;
+    font-size: 1.5em;
+    border-bottom: 2px solid var(--light-bg);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+
+/* ------------------------------------ */
+/* RESPONSIVIDAD (Ajustes para móviles) */
+/* ------------------------------------ */
+@media (max-width: 992px) {
+    .login-main { grid-template-columns: 1fr; }
+    .visual-panel { padding: 40px 20px; height: 30vh; min-height: 200px; justify-content: flex-start; }
+    .visual-panel p { display: none; }
+    .form-panel { height: auto; padding: 40px 20px; }
+    
+    /* RESPONSIVIDAD DE LA RUTA: CAMBIO A COLUMNA SIMPLE */
+    .process-interactive-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        min-height: auto;
+    }
+
+    .process-page-hero { padding: 50px 0 100px; }
+
+    .process-hub-container {
+        width: 300px; 
+        height: 450px;
+        order: 2; /* Mueve el hub debajo de la tarjeta en móvil */
+        margin: 30px auto;
+    }
+    
+    .process-hub-container::before {
+        left: 50%; /* Asegurar que la línea siga centrada */
+    }
+
+    .process-detail-card {
+        order: 1; /* Mantiene la tarjeta arriba */
+        min-height: 200px;
+        align-self: flex-start;
+    }
+
+    .process-hub { width: 80px; height: 80px; font-size: 1em; }
+    .process-hub i { font-size: 1.5em; }
+
+    .process-node { width: 70px; height: 70px; font-size: 1em; }
+
+    /* Posiciones en móvil (todo centrado sobre la línea) */
+    .node-1, .node-2, .node-3, .node-4, .node-5 {
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(40, 167, 69, 0.4); 
+    }
+
+    .node-2 { top: 25%; }
+    .node-4 { top: 75%; }
+    .node-5 { bottom: 0; transform: translate(-50%, 50%); } 
+
+    /* Ajuste para que el menú de idioma flotante no salga de la pantalla en móvil */
+    .language-options-float {
+        right: 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header .container { flex-direction: column; text-align: center; }
+    
+    /* En móvil, los botones se apilan */
+    .header-btn { margin: 10px 0; width: 100%; max-width: 200px; }
+    
+    /* * CAMBIO APLICADO AQUÍ: 
+     * header-proceso-btn (Ruta de Desarrollo) ahora va debajo (orden -2) 
+     */
+    .header-proceso-btn { 
+        order: -2; 
+        margin: 10px 0; 
+    }
+    
+    /* * CAMBIO APLICADO AQUÍ: 
+     * header-login-btn (Acceso Clientes) ahora va arriba (orden -3) 
+     */
+    .header-login-btn { 
+        order: -3; 
+        margin: 10px 0; 
+    }
+
+    /* OCULTAR IMAGEN DE LOGO PARA NO ACUMULAR ESPACIO EN MÓVILES MUY PEQUEÑOS */
+    .header-logo-img {
+        display: none;
+    }
+
+    .hero h2 { font-size: 2em; }
+    .mision-vision-grid { flex-direction: column; }
+}/* ------------------------------------------- */
+/* === CAMBIOS SOLICITADOS (Logo SENA) === */
+/* ------------------------------------------- */
+
+/* Estilos para el Logo SENA en el encabezado */
+.header-sena-logo {
+    height: 40px; /* Tamaño adecuado para que se alinee con los botones */
+    margin-left: 15px; /* Separación del botón anterior */
+    align-self: center; /* Asegura la alineación vertical en el flex container */
+    max-width: 100%; /* Asegura que sea responsivo */
+    height: auto; /* Mantiene la proporción */
+}
+
+/* Ajuste de responsividad para que el logo no se apile mal en móvil/tablet */
+@media (max-width: 1024px) {
+    .header-sena-logo {
+        height: 30px; /* Reducir en pantallas medianas */
+        margin-left: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* En móvil se apila todo con flex-direction: column; en .header .container */
+    .header-sena-logo {
+        height: 40px; 
+        margin: 10px 0 0 0; /* Espacio vertical para que se separe de otros elementos */
+        align-self: center; /* Centrar en la columna */
+    }
+}
+@media (max-width: 768px) {
+    /* En móvil se apila todo con flex-direction: column; */
+    .header-sena-logo {
+        height: 20px; 
+        margin: 10px 0 0 0; /* Espacio vertical para que se separe de otros elementos */
+        align-self: center; /* Centrar en la columna */
+        order: 4; /* Mantener al final de los elementos en el orden de la columna */
+    }
+}
+/* ------------------------------------------- */
+/* === CHATBOT FLOTANTE === */
+/* ------------------------------------------- */
+
+/* Estilo para el botón de iniciar conversación en Contacto */
+.large-btn {
+    font-size: 1.1rem;
+    padding: 15px 30px;
+    min-width: 250px;
+    transition: transform 0.2s; /* Añadir transición para mejor UX */
+}
+.large-btn i {
+    margin-right: 8px;
+}
+.large-btn:hover {
+    transform: translateY(-2px);
+}
+
+#chatbot-container {
+    position: fixed;
+    bottom: 90px; /* Separación de los botones flotantes de redes sociales */
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background-color: var(--white);
+    border-radius: 15px;
+    box-shadow: var(--shadow-heavy);
+    display: flex;
+    flex-direction: column;
+    z-index: 10000; /* Asegura que esté por encima de todo */
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Estado oculto */
+.chatbot-hidden {
+    transform: translateY(20px);
+    opacity: 1;
+    pointer-events: 1; /* Deshabilita interacciones cuando está oculto */
+}
+
+/* Encabezado del chat */
+.chatbot-header {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.chatbot-header .close-btn {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* Área de mensajes */
+.chatbot-messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: var(--light-bg);
+    display: flex;
+    flex-direction: column; /* Para alinear mensajes */
+}
+
+/* Área de entrada */
+.chatbot-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.chatbot-input input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 0.9rem;
+}
+
+.chatbot-input .btn {
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+/* Estilos para burbujas de mensajes */
+.message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 15px;
+    max-width: 85%;
+    word-wrap: break-word;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.message.bot {
+    background-color: var(--accent-color); /* Amarillo */
+    color: var(--dark-text);
+    border-bottom-left-radius: 3px;
+    margin-right: auto;
+}
+
+.message.user {
+    background-color: var(--primary-color); /* Azul */
+    color: var(--white);
+    border-bottom-right-radius: 3px;
+    margin-left: auto;
+    text-align: right;
+}
+
+/* Responsividad (Opcional, pero recomendado para móviles) */
+@media (max-width: 768px) {
+    #chatbot-container {
+        width: 100%;
+        height: 80%; /* Ocupa más altura en móvil */
+        right: 0;
+        bottom: 0;
+        border-radius: 0;
+    }
+}
+/* ------------------------------------------- */
+/* === CHATBOT FLOTANTE Y BOTÓN DE ACCIÓN === */
+/* ------------------------------------------- */
+
+/* Estilos para el nuevo botón flotante del Bot */
+.float-btn.chatbot-btn {
+    /* Mismas dimensiones que los otros botones flotantes */
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 24px;
+    
+    /* POSICIÓN: Inferior Izquierda */
+    bottom: 20px;
+    left: 20px;
+    right: unset;
+    
+    /* Estilo visual */
+    background-color: var(--primary-color); 
+    color: var(--white);
+    box-shadow: var(--shadow-heavy);
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s, transform 0.3s;
+    z-index: 10001; /* Alto para que esté encima de todo */
+}
+
+.float-btn.chatbot-btn:hover {
+    background-color: #03356e; /* Color más oscuro al pasar el ratón */
+    transform: scale(1.1);
+}
+
+/* AJUSTE DE POSICIÓN DEL CHATBOX: Inferior Izquierda */
+#chatbot-container {
+    position: fixed;
+    bottom: 90px; /* Separación del botón flotante */
+    left: 20px; /* Posicionado a la izquierda */
+    right: unset;
+    width: 350px;
+    height: 450px;
+    background-color: var(--white);
+    border-radius: 15px;
+    box-shadow: var(--shadow-heavy);
+    display: flex;
+    flex-direction: column;
+    z-index: 10000;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* ESTADO OCULTO - Posición a la izquierda */
+.chatbot-hidden {
+    transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+}
+/* ... y el resto de estilos del chatbot (header, messages, etc.) que te proporcioné anteriormente ... */

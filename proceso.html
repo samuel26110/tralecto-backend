@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="processTitle">Ruta de Desarrollo de Software | Tralecto</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos específicos para la página oscura de proceso */
+        body { background-color: var(--login-dark-bg); } 
+        .section-title { color: var(--accent-color); border-bottom-color: var(--primary-color); }
+        .process-content-overlay h2, .process-content-overlay p { color: var(--white); }
+        .process-detail-card h3 { color: var(--primary-color); }
+        .process-detail-card p { color: var(--dark-text); }
+        .tagline { margin: 0 auto 50px; }
+    </style>
+</head>
+<body>
+
+    <header class="header" id="mainHeader" style="background-color: rgba(255, 255, 255, 0.95);">
+        <div class="container">
+            <a href="login.html" class="btn primary-btn header-btn header-login-btn" data-key="btnClientAccess">Acceso Clientes</a>
+            <h1 class="logo"><a href="index.html">Tralecto</a></h1>
+            <a href="index.html" class="btn secondary-btn header-btn header-proceso-btn" data-key="navInicio">Inicio</a>
+        </div>
+    </header>
+
+    <section id="proceso" class="process-page-hero">
+        <canvas id="interactive-background"></canvas>
+        <div class="container process-content-overlay">
+            <div class="process-interactive-grid">
+                <h2 class="section-title" data-key="processHeroTitle">Ruta de Desarrollo de Software</h2>
+                <p class="tagline" data-key="processTagline">Nuestro proceso está diseñado para minimizar riesgos y maximizar la entrega de valor, garantizando calidad en cada etapa.</p>
+
+                <div id="process-detail" class="process-detail-card">
+                    <h3 data-key="processCardDefaultTitle"><i class="fas fa-info-circle" style="color: var(--primary-color); margin-right: 10px;"></i>Seleccione un paso</h3>
+                    <p data-key="processCardDefaultText">Haga clic en cualquiera de los círculos de la ruta para ver una descripción detallada de lo que sucede en esa fase de su proyecto.</p>
+                </div>
+
+                <div class="process-hub-container">
+                    
+                    <div id="hub-center" class="process-hub">
+                        <i class="fas fa-sync-alt"></i>
+                        <span data-key="processHubTitle">Ciclo Ágil</span>
+                    </div>
+
+                    <div id="step-1" class="process-node node-1" data-key-title="step1Title" data-key-detail="step1Detail" data-icon="fas fa-search">
+                        <i class="fas fa-search"></i>
+                    </div>
+
+                    <div id="step-2" class="process-node node-2" data-key-title="step2Title" data-key-detail="step2Detail" data-icon="fas fa-drafting-compass">
+                        <i class="fas fa-drafting-compass"></i>
+                    </div>
+
+                    <div id="step-3" class="process-node node-3" data-key-title="step3Title" data-key-detail="step3Detail" data-icon="fas fa-code-branch">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+
+                    <div id="step-4" class="process-node node-4" data-key-title="step4Title" data-key-detail="step4Detail" data-icon="fas fa-shield-alt">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+
+                    <div id="step-5" class="process-node node-5" data-key-title="step5Title" data-key-detail="step5Detail" data-icon="fas fa-rocket">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    
+                </div> 
+            </div> 
+        </div> 
+    </section>
+
+    <footer>
+        <div class="container">
+            <p data-key="footerText">&copy; 2025 Tralecto. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <div class="floating-social-buttons">
+        <div class="language-switcher-float">
+            <button id="lang-button" class="float-btn lang-btn" title="Cambiar Idioma">
+                <i class="fas fa-globe"></i>
+            </button>
+            <div id="lang-options" class="language-options-float">
+                <a href="#" data-lang="es">Español</a>
+                <a href="#" data-lang="en">English</a>
+                <a href="#" data-lang="pt">Português</a>
+                <a href="#" data-lang="zh">中文 (Mandarin)</a>
+            </div>
+        </div>
+        <a href="https://wa.me/573173482939" target="_blank" class="float-btn whatsapp-btn" title="Contáctanos por WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://instagram.com/tu_usuario" target="_blank" class="float-btn instagram-btn" title="Síguenos en Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="interactive-process.js"></script>
+
+</body>
+</html>

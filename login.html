@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="loginTitle">Acceso Clientes | Tralecto</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body style="margin: 0; padding: 0;">
+
+    <main class="login-main">
+        
+        <div class="visual-panel">
+            <h1 style="color: var(--white);">Tralecto</h1>
+            <h2 data-key="loginPanelTitle">Su Portal de Desarrollo de Software</h2>
+            <p data-key="loginPanelText">Acceda a su área de cliente para hacer seguimiento a proyectos, revisar documentación técnica y comunicarse directamente con su equipo de desarrolladores.</p>
+            
+            <h3 data-key="loginTitleFeatures">Beneficios</h3>
+            <div class="features">
+                <i class="fas fa-chart-line" data-key="loginFeature1" title="Seguimiento de Progreso"></i>
+                <i class="fas fa-file-code" data-key="loginFeature2" title="Documentación"></i>
+                <i class="fas fa-headset" data-key="loginFeature3" title="Soporte Prioritario"></i>
+            </div>
+
+            <a href="index.html" class="btn primary-btn" data-key="navInicio">Inicio</a>
+        </div>
+
+        <div class="form-panel">
+            <div class="login-container">
+                
+                <div id="login-view" style="display: block; opacity: 1;">
+                    <h2 data-key="loginSubtitle">Iniciar Sesión</h2>
+                    <form class="login-form">
+                        <input type="text" data-key="phUser" placeholder="Nombre de Usuario o Correo" required>
+                        <input type="password" data-key="phPass" placeholder="Contraseña" required>
+                        <button type="submit" class="btn primary-btn" data-key="btnLogin">Acceder</button>
+                    </form>
+                    <div class="form-toggle">
+                        <p><button id="show-register" data-key="btnShowRegister">Crear una cuenta nueva</button></p>
+                    </div>
+                </div>
+
+                <div id="register-view" style="display: none; opacity: 0;">
+                    <h2 data-key="registerSubtitle">Registro</h2>
+                    <form class="login-form">
+                        <input type="text" data-key="phUser" placeholder="Nombre de Usuario o Correo" required>
+                        <input type="password" data-key="phPass" placeholder="Contraseña" required>
+                        <input type="password" data-key="phRepeatPass" placeholder="Repetir Contraseña" required>
+                        <button type="submit" class="btn primary-btn" data-key="btnRegister">Registrarse</button>
+                    </form>
+                    <div class="form-toggle">
+                        <p><button id="show-login" data-key="btnShowLogin">Ya tengo una cuenta</button></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    
+    <div class="floating-social-buttons">
+        <div class="language-switcher-float">
+            <button id="lang-button" class="float-btn lang-btn" title="Cambiar Idioma">
+                <i class="fas fa-globe"></i>
+            </button>
+            <div id="lang-options" class="language-options-float">
+                <a href="#" data-lang="es">Español</a>
+                <a href="#" data-lang="en">English</a>
+                <a href="#" data-lang="pt">Português</a>
+                <a href="#" data-lang="zh">中文 (Mandarin)</a>
+            </div>
+        </div>
+        <a href="https://wa.me/573173482939" target="_blank" class="float-btn whatsapp-btn" title="Contáctanos por WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://instagram.com/tu_usuario" target="_blank" class="float-btn instagram-btn" title="Síguenos en Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
