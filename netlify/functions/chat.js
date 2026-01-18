@@ -31,32 +31,37 @@ app.post('/api/chat', async (req, res) => {
         const msg = message.toLowerCase();
         
         let responseText = "";
-        const contactoCierre = "\n\n🚀 **Este mensaje llegará directamente a nuestros programadores.** Por favor, escribe tu **nombre y correo electrónico** para que podamos enviarte una propuesta detallada.";
+        const contactoCierre = "\n\n✨ **Nuestros programadores ya están afilando el teclado para leerte.** Suéltanos tu **nombre y correo** aquí abajo y te contactaremos más rápido que un bug en viernes por la tarde.";
 
-        // 1. VIDEOJUEGOS
-        if (msg.includes("juego") || msg.includes("videojuego")) {
-            responseText = "¡Los videojuegos son nuestra pasión! 🎮 En Tralecto creamos experiencias en 2D, 3D y VR para móviles o PC. Ya sea un RPG, un plataformas o un juego de acción, podemos hacerlo realidad." + contactoCierre;
+        // 1. DETECCIÓN DE CORREO (Finalización con estilo)
+        if (msg.includes("@") && (msg.includes(".com") || msg.includes(".es") || msg.includes(".net"))) {
+            responseText = "¡Recibido y procesado! 📩 Acabas de alegrarle el día a nuestro equipo. Vamos a analizar tu idea y te escribiremos pronto. ¡Gracias por elegir el lado divertido del software en **Tralecto**! ¡Nos vemos en el código! 👋✨";
+        }
+        // 2. VIDEOJUEGOS
+        else if (msg.includes("juego") || msg.includes("videojuego")) {
+            responseText = "¡Amo los videojuegos! 🎮 En Tralecto no solo los jugamos, ¡los creamos! Ya sea un mundo en 3D para flipar, un RPG pixel-art o algo loco en VR para móvil o PC, nosotros le damos al 'Play' a tu idea." + contactoCierre;
         } 
-        // 2. APLICACIONES MÓVILES
+        // 3. APLICACIONES MÓVILES
         else if (msg.includes("app") || msg.includes("aplicacion") || msg.includes("móvil")) {
-            responseText = "¡Excelente! 📱 Desarrollamos Apps nativas e híbridas (iOS/Android). Desde herramientas para empresas hasta redes sociales con diseño de vanguardia." + contactoCierre;
+            responseText = "¡Una App! El accesorio favorito de todo el mundo. 📱 En Tralecto cocinamos apps para Android e iOS que son una delicia visual y técnica. ¿Tienes la idea del millón o algo para mejorar el mundo?" + contactoCierre;
         }
-        // 3. PÁGINAS WEB
+        // 4. PÁGINAS WEB
         else if (msg.includes("web") || msg.includes("página") || msg.includes("sitio")) {
-            responseText = "¡Entendido! 🌐 Creamos desde tiendas online (E-commerce) y webs para restaurantes, hasta plataformas complejas de software. Nos adaptamos totalmente a tu modelo de negocio." + contactoCierre;
+            responseText = "¡Webs que enamoran! 🌐 Desde una tienda para vender hasta arena en el desierto, hasta plataformas de software ultra-potentes. Si se puede navegar, en Tralecto lo podemos construir con estilo." + contactoCierre;
         }
-        // 4. CHISTES
+        // 5. CHISTES (Selección aleatoria)
         else if (msg.includes("chiste") || msg.includes("gracia")) {
             const chistes = [
                 "¿Qué le dice un Jaguar a otro Jaguar? ... Jaguar you? 😂",
                 "¿Por qué el libro de matemáticas se quitó la vida? ... ¡Porque tenía muchos problemas! 📚",
-                "¿Qué hace una abeja en el gimnasio? ... ¡Zumba! 🐝"
+                "¿Qué hace una abeja en el gimnasio? ... ¡Zumba! 🐝",
+                "¿Cómo se despiden los programadores? ... ¡Adi-OS! 🖥️"
             ];
             responseText = chistes[Math.floor(Math.random() * chistes.length)];
         }
-        // 5. RESPUESTA GENÉRICA (Identidad de marca)
+        // 6. RESPUESTA GENÉRICA (Personalidad Tralecto)
         else {
-            responseText = "En **Tralecto** somos un estudio creativo especializado en transformar ideas en software: Webs, Apps móviles y Videojuegos (2D/3D/VR). 🚀 \n\n¿Tienes un proyecto en mente? Cuéntame un poco más y **déjanos tu nombre y correo** para que nuestro equipo técnico se ponga en contacto contigo.";
+            responseText = "¡Hola! Estás en **Tralecto**, el rincón donde el café se convierte en código mágico. 🚀 Hacemos de todo: Webs, Apps y Videojuegos épicos. \n\nCuéntame qué locura tienes en mente y **déjanos tu nombre y correo**; prometemos no enviarte spam aburrido, solo soluciones geniales.";
         }
 
         const newChat = new Chat({ userMessage: message, botResponse: responseText });
@@ -66,7 +71,7 @@ app.post('/api/chat', async (req, res) => {
 
     } catch (error) {
         console.error("Error:", error);
-        res.status(500).json({ error: "Hubo un corto circuito mental." });
+        res.status(500).json({ error: "¡Ups! Mi cerebro de silicio acaba de tener un hipo. ¡Inténtalo de nuevo!" });
     }
 });
 
