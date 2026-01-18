@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputField = document.getElementById('chatbot-input-field');
     const sendBtn = document.getElementById('chatbot-send-btn');
     
-    // URL del Backend - ¡CRÍTICO! Usar puerto 4000 y 127.0.0.1
-    const apiURL = '/.netlify/functions/chat'; 
+    // URL del Backend 
+    const apiURL = '/api/chat';
 
     // Comprobación de que los elementos esenciales existen
     if (!openBtn || !chatbotContainer) return; 
@@ -123,5 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
             sendMessage();
         }
     });
+
 
 });
