@@ -31,30 +31,32 @@ app.post('/api/chat', async (req, res) => {
         const msg = message.toLowerCase();
         
         let responseText = "";
+        const contactoCierre = "\n\n🚀 **Este mensaje llegará directamente a nuestros programadores.** Por favor, escribe tu **nombre y correo electrónico** para que podamos enviarte una propuesta detallada.";
 
-        if (msg.includes("hola") || msg.includes("buenos días") || msg.includes("buenas tardes")) {
-            responseText = "¡Hola! Soy el asistente de Tralecto. No tomo café porque mi sistema prefiere la electricidad, pero tengo toda la energía para ayudarte. ¿Qué proyecto tienes en mente?";
+        // 1. VIDEOJUEGOS
+        if (msg.includes("juego") || msg.includes("videojuego")) {
+            responseText = "¡Los videojuegos son nuestra pasión! 🎮 En Tralecto creamos experiencias en 2D, 3D y VR para móviles o PC. Ya sea un RPG, un plataformas o un juego de acción, podemos hacerlo realidad." + contactoCierre;
         } 
-        else if (msg.includes("juego") || msg.includes("videojuego")) {
-            responseText = "¿Dijiste juegos? 🎮 ¡Eso nos encanta! En Tralecto creamos experiencias interactivas que enganchan. ¿Tienes una idea para el próximo gran éxito?";
-        }
+        // 2. APLICACIONES MÓVILES
         else if (msg.includes("app") || msg.includes("aplicacion") || msg.includes("móvil")) {
-            responseText = "¡Apps a la medida! 📱 Ya sea para Android o iOS, en Tralecto las hacemos fluidas y elegantes. ¿Es para tu negocio o una idea personal?";
+            responseText = "¡Excelente! 📱 Desarrollamos Apps nativas e híbridas (iOS/Android). Desde herramientas para empresas hasta redes sociales con diseño de vanguardia." + contactoCierre;
         }
-        else if (msg.includes("chiste") || msg.includes("gracia") || msg.includes("divertido")) {
+        // 3. PÁGINAS WEB
+        else if (msg.includes("web") || msg.includes("página") || msg.includes("sitio")) {
+            responseText = "¡Entendido! 🌐 Creamos desde tiendas online (E-commerce) y webs para restaurantes, hasta plataformas complejas de software. Nos adaptamos totalmente a tu modelo de negocio." + contactoCierre;
+        }
+        // 4. CHISTES
+        else if (msg.includes("chiste") || msg.includes("gracia")) {
             const chistes = [
                 "¿Qué le dice un Jaguar a otro Jaguar? ... Jaguar you? 😂",
                 "¿Por qué el libro de matemáticas se quitó la vida? ... ¡Porque tenía muchos problemas! 📚",
-                "¿Cómo se dice 'pañuelo' en japonés? ... Saka-moko. 🤧",
                 "¿Qué hace una abeja en el gimnasio? ... ¡Zumba! 🐝"
             ];
             responseText = chistes[Math.floor(Math.random() * chistes.length)];
         }
-        else if (msg.includes("precio") || msg.includes("costo") || msg.includes("cuánto")) {
-            responseText = "El precio depende de las medidas de tu proyecto. Pero no te asustes, cuéntame más y te doy un presupuesto que no te haga llorar.";
-        }
+        // 5. RESPUESTA GENÉRICA (Identidad de marca)
         else {
-            responseText = "¡Interesante! He guardado tu mensaje. Mientras tanto, ¿por qué no me das más detalles sobre lo que buscas en Tralecto?";
+            responseText = "En **Tralecto** somos un estudio creativo especializado en transformar ideas en software: Webs, Apps móviles y Videojuegos (2D/3D/VR). 🚀 \n\n¿Tienes un proyecto en mente? Cuéntame un poco más y **déjanos tu nombre y correo** para que nuestro equipo técnico se ponga en contacto contigo.";
         }
 
         const newChat = new Chat({ userMessage: message, botResponse: responseText });
