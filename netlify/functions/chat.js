@@ -16,10 +16,15 @@ async function connectToDatabase() {
     return cachedDb;
 }
 
+// Esquema organizado por Conversación
 const ChatSchema = new mongoose.Schema({
-    userMessage: String,
-    botResponse: String,
-    timestamp: { type: Date, default: Date.now }
+    sessionId: String,
+    messages: [{
+        role: String, // 'user' o 'bot'
+        text: String,
+        timestamp: { type: Date, default: Date.now }
+    }],
+    lastUpdate: { type: Date, default: Date.now }
 });
 
 const Chat = mongoose.models.Chat || mongoose.model('Chat', ChatSchema);
@@ -27,29 +32,25 @@ const Chat = mongoose.models.Chat || mongoose.model('Chat', ChatSchema);
 app.post('/api/chat', async (req, res) => {
     try {
         await connectToDatabase();
-        const { message } = req.body;
+        const { message, sessionId } = req.body;
         const msg = message.toLowerCase();
         
         let responseText = "";
-        const contactoCierre = "\n\n✨ **Nuestros programadores ya están afilando el teclado para leerte.** Suéltanos tu **nombre y correo** aquí abajo y te contactaremos más rápido que un bug en viernes por la tarde.";
+        const contactoCierre = "\n\n✨ **Nuestros programadores ya están afilando el teclado.** Suéltanos tu **nombre y correo** aquí abajo y te contactaremos más rápido que un bug en viernes por la tarde.";
 
-        // 1. DETECCIÓN DE CORREO (Finalización con estilo)
+        // Lógica con humor de Tralecto
         if (msg.includes("@") && (msg.includes(".com") || msg.includes(".es") || msg.includes(".net"))) {
-            responseText = "¡Recibido y procesado! 📩 Acabas de alegrarle el día a nuestro equipo. Vamos a analizar tu idea y te escribiremos pronto. ¡Gracias por elegir el lado divertido del software en **Tralecto**! ¡Nos vemos en el código! 👋✨";
+            responseText = "¡Recibido y procesado! 📩 Acabas de alegrarle el día a nuestro equipo. Vamos a analizar tu idea y te escribiremos pronto. ¡Gracias por elegir el lado divertido del software en **Tralecto**! 👋✨";
         }
-        // 2. VIDEOJUEGOS
         else if (msg.includes("juego") || msg.includes("videojuego")) {
-            responseText = "¡Amo los videojuegos! 🎮 En Tralecto no solo los jugamos, ¡los creamos! Ya sea un mundo en 3D para flipar, un RPG pixel-art o algo loco en VR para móvil o PC, nosotros le damos al 'Play' a tu idea." + contactoCierre;
+            responseText = "¡Amo los videojuegos! 🎮 En Tralecto creamos experiencias en 2D, 3D y VR para móviles o PC. Ya sea un RPG o un plataformas, nosotros le damos al 'Play' a tu idea." + contactoCierre;
         } 
-        // 3. APLICACIONES MÓVILES
         else if (msg.includes("app") || msg.includes("aplicacion") || msg.includes("móvil")) {
-            responseText = "¡Una App! El accesorio favorito de todo el mundo. 📱 En Tralecto cocinamos apps para Android e iOS que son una delicia visual y técnica. ¿Tienes la idea del millón o algo para mejorar el mundo?" + contactoCierre;
+            responseText = "¡Una App! El accesorio favorito de todos. 📱 En Tralecto cocinamos apps para Android e iOS que son una delicia visual. ¿Tienes la idea del millón?" + contactoCierre;
         }
-        // 4. PÁGINAS WEB
         else if (msg.includes("web") || msg.includes("página") || msg.includes("sitio")) {
-            responseText = "¡Webs que enamoran! 🌐 Desde una tienda para vender hasta arena en el desierto, hasta plataformas de software ultra-potentes. Si se puede navegar, en Tralecto lo podemos construir con estilo." + contactoCierre;
+            responseText = "¡Webs que enamoran! 🌐 Desde una tienda online hasta plataformas de software ultra-potentes. Si se puede navegar, en Tralecto lo construimos con estilo." + contactoCierre;
         }
-        // 5. CHISTES (Selección aleatoria)
         else if (msg.includes("chiste") || msg.includes("gracia")) {
             const chistes = [
                 "¿Qué le dice un Jaguar a otro Jaguar? ... Jaguar you? 😂",
@@ -59,19 +60,30 @@ app.post('/api/chat', async (req, res) => {
             ];
             responseText = chistes[Math.floor(Math.random() * chistes.length)];
         }
-        // 6. RESPUESTA GENÉRICA (Personalidad Tralecto)
         else {
-            responseText = "¡Hola! Estás en **Tralecto**, el rincón donde el café se convierte en código mágico. 🚀 Hacemos de todo: Webs, Apps y Videojuegos épicos. \n\nCuéntame qué locura tienes en mente y **déjanos tu nombre y correo**; prometemos no enviarte spam aburrido, solo soluciones geniales.";
+            responseText = "¡Hola! Estás en **Tralecto**, el rincón donde el café se convierte en código mágico. 🚀 Hacemos Webs, Apps y Videojuegos épicos. \n\nCuéntame tu idea y **déjanos tu nombre y correo**; prometemos no enviarte spam aburrido.";
         }
 
-        const newChat = new Chat({ userMessage: message, botResponse: responseText });
-        await newChat.save();
+        // GUARDAR O ACTUALIZAR LA CONVERSACIÓN
+        await Chat.findOneAndUpdate(
+            { sessionId: sessionId },
+            { 
+                $push: { 
+                    messages: [
+                        { role: 'user', text: message },
+                        { role: 'bot', text: responseText }
+                    ] 
+                },
+                $set: { lastUpdate: Date.now() }
+            },
+            { upsert: true, new: true }
+        );
 
         res.json({ response: responseText });
 
     } catch (error) {
         console.error("Error:", error);
-        res.status(500).json({ error: "¡Ups! Mi cerebro de silicio acaba de tener un hipo. ¡Inténtalo de nuevo!" });
+        res.status(500).json({ error: "¡Ups! Mi cerebro de silicio tuvo un hipo." });
     }
 });
 
