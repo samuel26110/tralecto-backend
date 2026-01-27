@@ -3,105 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración de Leads - Tralecto</title>
-    <link rel="stylesheet" href="styles.css"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Admin Command Center | Tralecto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Estilos específicos del panel */
-        body { 
-            background-color: #f4f4f9; 
-            padding: 20px;
-        }
-        .container-admin {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h1, h2 { color: var(--primary-color); }
+        :root { --dark: #1a1a2e; --light: #f4f7f6; --primary: #6a11cb; --accent: #2575fc; --text: #333; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--light); color: var(--text); }
         
-        table {
-            width: 100%;
-            border-collapse: separate; /* Cambiado de collapse */
-            border-spacing: 0;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: var(--secondary-color);
-            color: white;
-            position: sticky;
-            top: 0;
-        }
-        tr:hover {
-            background-color: #f9f9f9;
-        }
-        /* Color de filas según el estado */
-        tr[data-managed="true"] {
-            background-color: #e6ffe6; /* Fondo verde claro si está gestionado */
-            opacity: 0.7;
-        }
-        
-        /* Estilos de botones de acción */
-        .action-btn {
-            padding: 6px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-right: 5px;
-            font-size: 12px;
-            transition: background-color 0.3s;
-        }
-        .btn-manage {
-            background-color: #28a745; /* Verde */
-            color: white;
-        }
-        .btn-manage:hover {
-            background-color: #1e7e34;
-        }
-        .btn-delete {
-            background-color: #dc3545; /* Rojo */
-            color: white;
-        }
-        .btn-delete:hover {
-            background-color: #c82333;
-        }
-        /* Ocultar la sección de login (ya la manejamos en admin-login.html) */
-        #login-section { display: none !important; }
+        /* Layout */
+        .admin-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+        .sidebar { background: var(--dark); color: white; padding: 30px; display: flex; flex-direction: column; }
+        .logo { font-size: 24px; font-weight: bold; margin-bottom: 50px; color: white; text-decoration: none; }
+        .nav-link { color: #a0a0a0; text-decoration: none; padding: 15px; margin-bottom: 10px; border-radius: 10px; display: flex; align-items: center; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.1); color: white; }
+        .nav-link i { margin-right: 15px; width: 20px; text-align: center; }
 
+        .content { padding: 40px; overflow-y: auto; }
+        
+        /* Stats Cards */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .stat-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; align-items: center; }
+        .stat-icon { width: 60px; height: 60px; border-radius: 12px; background: #e0e7ff; color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-right: 20px; }
+        .stat-info h3 { margin: 0; font-size: 28px; }
+        .stat-info p { margin: 0; color: #888; font-size: 14px; }
+
+        /* Section Titles */
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .section-title { font-size: 20px; font-weight: bold; }
+
+        /* Project Cards (Reemplazo de Tabla) */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; }
+        .project-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); transition: transform 0.2s; }
+        .project-card:hover { transform: translateY(-5px); }
+        .client-info { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .client-name { font-weight: bold; font-size: 18px; }
+        .client-email { font-size: 12px; color: #888; }
+        
+        /* Controles de Proyecto */
+        .control-group { margin-bottom: 15px; }
+        .control-label { font-size: 12px; color: #666; display: block; margin-bottom: 5px; }
+        .status-select { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ddd; background: #f9f9f9; }
+        .range-slider { width: 100%; cursor: pointer; }
+        
+        .btn-save { width: 100%; background: var(--primary); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px; transition: 0.3s; }
+        .btn-save:hover { background: #5a0eb0; }
+
+        /* Leads Table (Versión Simplificada) */
+        .leads-container { background: white; border-radius: 15px; padding: 25px; margin-top: 40px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .lead-item { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .lead-item:last-child { border-bottom: none; }
+        .lead-msg { font-style: italic; color: #555; background: #f0f0f0; padding: 5px 10px; border-radius: 5px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-layout { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+        }
     </style>
 </head>
 <body>
-    <div class="container-admin">
-        <h1>Panel de Administración de Leads</h1>
-        <a href="admin-login.html" class="btn secondary-btn" id="logout-btn" onclick="sessionStorage.removeItem('adminToken')">Cerrar Sesión</a>
 
-        <h2>Leads Capturados</h2>
-        <table id="leads-table">
-            <thead>
-                <tr>
-                    <th>Estado</th>
-                    <th>Fecha</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Tipo de Proyecto</th>
-                    <th>Mensaje Inicial</th>
-                    <th>Acciones</th> </tr>
-            </thead>
-            <tbody>
-                </tbody>
-        </table>
-        <p id="loading-message" style="text-align: center; margin-top: 20px;">Cargando leads...</p>
+    <div class="admin-layout">
+        <nav class="sidebar">
+            <a href="#" class="logo">Tralecto Admin</a>
+            <a href="#proyectos" class="nav-link active"><i class="fas fa-tasks"></i> Proyectos</a>
+            <a href="#leads" class="nav-link"><i class="fas fa-comments"></i> Chat Leads</a>
+            <a href="#" onclick="logout()" class="nav-link" style="margin-top: auto; color: #ff6b6b;"><i class="fas fa-sign-out-alt"></i> Salir</a>
+        </nav>
+
+        <main class="content">
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-info">
+                        <h3 id="total-clients">0</h3>
+                        <p>Clientes Activos</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e3f9e5; color: #28a745;"><i class="fas fa-comment-dots"></i></div>
+                    <div class="stat-info">
+                        <h3 id="total-leads">0</h3>
+                        <p>Conversaciones</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <div class="section-title">Gestión de Clientes</div>
+                <button onclick="loadData()" style="background:none; border:none; cursor:pointer;"><i class="fas fa-sync-alt"></i></button>
+            </div>
+
+            <div id="projects-container" class="projects-grid">
+                <p>Cargando proyectos...</p>
+            </div>
+
+            <div class="leads-container" id="leads-section">
+                <div class="section-title" style="margin-bottom: 20px;">Últimas Conversaciones (Bot)</div>
+                <div id="leads-list">
+                    </div>
+            </div>
+
+        </main>
     </div>
 
-    <script src="admin.js"></script>
+    <script>
+        // TOKEN DE SEGURIDAD
+        const token = sessionStorage.getItem('adminToken');
+        // Si no hay token, fuera de aquí
+        if (!token) window.location.href = 'admin-login.html';
+
+        async function loadData() {
+            // 1. CARGAR CLIENTES (PROYECTOS)
+            try {
+                const resUsers = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'admin_get_users' })
+                });
+                const dataUsers = await resUsers.json();
+                renderProjects(dataUsers.users);
+                document.getElementById('total-clients').innerText = dataUsers.users.length;
+            } catch (e) { console.error("Error cargando usuarios", e); }
+
+            // 2. CARGAR LEADS (CHATS)
+            try {
+                // NOTA: Asegúrate de haber subido el archivo leads.js en el paso anterior
+                const resLeads = await fetch('/api/leads');
+                const leads = await resLeads.json();
+                renderLeads(leads);
+                document.getElementById('total-leads').innerText = leads.length;
+            } catch (e) { console.error("Error cargando leads", e); }
+        }
+
+        // RENDERIZADOR DE PROYECTOS (TARJETAS)
+        function renderProjects(users) {
+            const container = document.getElementById('projects-container');
+            container.innerHTML = '';
+
+            users.forEach(user => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                card.innerHTML = `
+                    <div class="client-info">
+                        <div>
+                            <div class="client-name">${user.name || 'Sin Nombre'}</div>
+                            <div class="client-email">${user.email}</div>
+                        </div>
+                        <div style="text-align:right">
+                            <span style="font-weight:bold; color:var(--primary);">${user.progress}%</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Estado del Proyecto</label>
+                        <select id="status-${user._id}" class="status-select">
+                            <option value="Análisis Inicial" ${user.status === 'Análisis Inicial' ? 'selected' : ''}>🔍 Análisis Inicial</option>
+                            <option value="Diseño UI/UX" ${user.status === 'Diseño UI/UX' ? 'selected' : ''}>🎨 Diseño UI/UX</option>
+                            <option value="Desarrollo Backend" ${user.status === 'Desarrollo Backend' ? 'selected' : ''}>⚙️ Desarrollo Backend</option>
+                            <option value="Desarrollo Frontend" ${user.status === 'Desarrollo Frontend' ? 'selected' : ''}>🖥️ Desarrollo Frontend</option>
+                            <option value="Pruebas QA" ${user.status === 'Pruebas QA' ? 'selected' : ''}>🐞 Pruebas QA</option>
+                            <option value="Despliegue Final" ${user.status === 'Despliegue Final' ? 'selected' : ''}>🚀 Despliegue Final</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Progreso: <span id="val-${user._id}">${user.progress}</span>%</label>
+                        <input type="range" id="prog-${user._id}" class="range-slider" min="0" max="100" value="${user.progress}" 
+                            oninput="document.getElementById('val-${user._id}').innerText = this.value">
+                    </div>
+
+                    <button onclick="saveProject('${user._id}')" class="btn-save">Guardar Cambios</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // RENDERIZADOR DE LEADS
+        function renderLeads(leads) {
+            const list = document.getElementById('leads-list');
+            list.innerHTML = '';
+            
+            // Solo mostramos los últimos 10
+            leads.slice(0, 10).forEach(lead => {
+                const item = document.createElement('div');
+                item.className = 'lead-item';
+                // Formatear fecha
+                const date = new Date(lead.timestamp).toLocaleDateString();
+                
+                item.innerHTML = `
+                    <div>
+                        <strong>${lead.contactName || 'Anónimo'}</strong> <span style="font-size:12px; color:#999">(${date})</span><br>
+                        <span class="lead-msg">"${lead.initialMessage}"</span>
+                    </div>
+                    <button style="border:none; background:none; color:var(--accent); cursor:pointer;">Ver Chat</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        // GUARDAR CAMBIOS
+        async function saveProject(userId) {
+            const newStatus = document.getElementById(`status-${userId}`).value;
+            const newProgress = document.getElementById(`prog-${userId}`).value;
+            const btn = event.target; // El botón que se clickeó
+
+            btn.textContent = "Guardando...";
+            
+            try {
+                await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        action: 'admin_update_project', 
+                        userId, 
+                        newStatus, 
+                        newProgress 
+                    })
+                });
+                btn.textContent = "¡Guardado!";
+                setTimeout(() => btn.textContent = "Guardar Cambios", 2000);
+            } catch (e) {
+                alert("Error al guardar");
+                btn.textContent = "Error";
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('adminToken');
+            window.location.href = 'admin-login.html';
+        }
+
+        // Cargar todo al inicio
+        loadData();
+    </script>
 </body>
 </html>
