@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Proyecto | Tralecto</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { background-color: #f4f4f9; font-family: 'Poppins', sans-serif; }
+        .dash-container { max-width: 800px; margin: 50px auto; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .progress-track { background: #eee; height: 25px; border-radius: 20px; margin-top: 20px; overflow: hidden; }
+        .progress-fill { background: #6a11cb; height: 100%; width: 0%; color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: width 1s; }
+    </style>
+</head>
+<body>
+    <div class="dash-container">
+        <div class="card">
+            <h1>Hola, <span id="user-name">Cargando...</span> 👋</h1>
+            <p>Estado de tu proyecto: <strong id="status-text">...</strong></p>
+            
+            <div class="progress-track">
+                <div id="progress-bar" class="progress-fill">0%</div>
+            </div>
+            
+            <button onclick="logout()" style="margin-top: 30px; padding: 10px 20px; border: none; background: #ff4757; color: white; border-radius: 5px; cursor: pointer;">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const userId = localStorage.getItem('tralecto_uid');
+            if (!userId) { window.location.href = 'login.html'; return; }
+
+            const res = await fetch('/api/auth', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'get_dashboard', userId })
+            });
+            const data = await res.json();
+
+            document.getElementById('user-name').textContent = data.name;
+            document.getElementById('status-text').textContent = data.status;
+            document.getElementById('progress-bar').style.width = data.progress + '%';
+            document.getElementById('progress-bar').textContent = data.progress + '%';
+        });
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
