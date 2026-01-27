@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableBody = document.querySelector('#leads-table tbody');
     const loadingMessage = document.getElementById('loading-message');
     
-    const API_BASE_URL = 'http://127.0.0.1:4000/api/leads'; 
+    const API_BASE_URL = '/api/leads'; 
     const adminToken = sessionStorage.getItem('adminToken');
 
     if (!adminToken) {
@@ -145,4 +145,5 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(error);
         });
     }
+
 });
