@@ -16,11 +16,11 @@ async function connectToDatabase() {
     return cachedDb;
 }
 
-// Esquema organizado por Conversación
+// Esquema del Chat
 const ChatSchema = new mongoose.Schema({
     sessionId: String,
     messages: [{
-        role: String, // 'user' o 'bot'
+        role: String, 
         text: String,
         timestamp: { type: Date, default: Date.now }
     }],
@@ -32,39 +32,90 @@ const Chat = mongoose.models.Chat || mongoose.model('Chat', ChatSchema);
 app.post('/api/chat', async (req, res) => {
     try {
         await connectToDatabase();
-        const { message, sessionId } = req.body;
-        const msg = message.toLowerCase();
+        
+        const { message, sessionId, userName } = req.body; 
+        const msg = message.toLowerCase(); // Convertimos todo a minúsculas para analizar mejor
         
         let responseText = "";
-        const contactoCierre = "\n\n✨ **Nuestros programadores ya están afilando el teclado.** Suéltanos tu **nombre y correo** aquí abajo y te contactaremos más rápido que un bug en viernes por la tarde.";
+        const contactoCierre = "\n\n✨ **Déjanos tu nombre y correo** y hablamos en serio.";
 
-        // Lógica con humor de Tralecto
-        if (msg.includes("@") && (msg.includes(".com") || msg.includes(".es") || msg.includes(".net"))) {
-            responseText = "¡Recibido y procesado! 📩 Acabas de alegrarle el día a nuestro equipo. Vamos a analizar tu idea y te escribiremos pronto. ¡Gracias por elegir el lado divertido del software en **Tralecto**! 👋✨";
+        // ======================================================
+        // 🛡️ NIVEL 1: SISTEMA DE SEGURIDAD (BLACKLIST)
+        // ======================================================
+        // Lista de palabras que NO permitimos (puedes agregar más)
+        const palabrasProhibidas = [
+            "estupido", "idiota", "tonto", "basura", "inutil", 
+            "matar", "morir", "droga", "sexo", "porno", 
+            "racista", "odio", "politica", "religion"
+        ];
+
+        // Verificamos si el mensaje contiene alguna palabra prohibida
+        const esOfensivo = palabrasProhibidas.some(palabra => msg.includes(palabra));
+
+        if (esOfensivo) {
+            responseText = "🚫 **Sistema de Seguridad Activado:** Mi programación me impide procesar mensajes ofensivos o fuera de las normas de la comunidad. Hablemos de tecnología con respeto, por favor. 🤖";
         }
-        else if (msg.includes("juego") || msg.includes("videojuego")) {
-            responseText = "¡Amo los videojuegos! 🎮 En Tralecto creamos experiencias en 2D, 3D y VR para móviles o PC. Ya sea un RPG o un plataformas, nosotros le damos al 'Play' a tu idea." + contactoCierre;
+
+        // ======================================================
+        // 🚀 NIVEL 2: TEMAS DE NEGOCIO (LO QUE SÍ QUEREMOS)
+        // ======================================================
+        
+        // Saludos e Identificación
+        else if ((msg.includes('hola') || msg.includes('buenos') || msg.includes('hey')) && userName) {
+            responseText = `¡Hola de nuevo, **${userName}**! 👋 Veo que ya tienes cuenta. ¿En qué puedo ayudarte hoy con tu proyecto?`;
+        }
+        else if ((msg.includes('hola') || msg.includes('buenos') || msg.includes('hey'))) {
+            responseText = "¡Hola! Soy Tralecto Bot. 🤖 Estoy aquí para convertir tus ideas en código. ¿Hablamos de una Web, una App o un Juego?";
+        }
+
+        // Dashboard y Cuenta
+        else if (msg.includes("dashboard") || msg.includes("panel") || msg.includes("proyecto") || msg.includes("avance")) {
+            if(userName) {
+                responseText = `Como eres cliente registrado (**${userName}**), puedes ver el avance en tu <a href='dashboard.html' style='color:#fff; text-decoration:underline; font-weight:bold;'>Panel de Control aquí</a>.`;
+            } else {
+                responseText = "Para ver tu proyecto, necesitas iniciar sesión en 'Acceso Clientes'.";
+            }
+        }
+
+        // Servicios Específicos
+        else if (msg.includes("juego") || msg.includes("videojuego") || msg.includes("rpg") || msg.includes("unity")) {
+            responseText = "¡Videojuegos! 🎮 Mi especialidad. Hacemos RPGs, plataformas y experiencias 3D. ¿Tienes una idea para móvil o PC?" + contactoCierre;
         } 
-        else if (msg.includes("app") || msg.includes("aplicacion") || msg.includes("móvil")) {
-            responseText = "¡Una App! El accesorio favorito de todos. 📱 En Tralecto cocinamos apps para Android e iOS que son una delicia visual. ¿Tienes la idea del millón?" + contactoCierre;
+        else if (msg.includes("app") || msg.includes("aplicacion") || msg.includes("movil") || msg.includes("android") || msg.includes("ios")) {
+            responseText = "¡Apps Móviles! 📱 Desarrollamos aplicaciones nativas que vuelan. ¿Es para un negocio o una startup?" + contactoCierre;
         }
-        else if (msg.includes("web") || msg.includes("página") || msg.includes("sitio")) {
-            responseText = "¡Webs que enamoran! 🌐 Desde una tienda online hasta plataformas de software ultra-potentes. Si se puede navegar, en Tralecto lo construimos con estilo." + contactoCierre;
+        else if (msg.includes("web") || msg.includes("pagina") || msg.includes("sitio") || msg.includes("ecommerce")) {
+            responseText = "¡Desarrollo Web! 🌐 Desde tiendas online hasta sistemas empresariales. Si vive en internet, nosotros lo construimos." + contactoCierre;
         }
-        else if (msg.includes("chiste") || msg.includes("gracia")) {
+        else if (msg.includes("precio") || msg.includes("costo") || msg.includes("cuanto vale") || msg.includes("cotiza")) {
+            responseText = "El costo depende de la magnitud de tu sueño. 💰 No es lo mismo un blog que un MMORPG. \n\nPor favor, describe tu idea y te daré un rango estimado.";
+        }
+        
+        // Easter Eggs (Chistes permitidos)
+        else if (msg.includes("chiste") || msg.includes("broma")) {
             const chistes = [
-                "¿Qué le dice un Jaguar a otro Jaguar? ... Jaguar you? 😂",
-                "¿Por qué el libro de matemáticas se quitó la vida? ... ¡Porque tenía muchos problemas! 📚",
-                "¿Qué hace una abeja en el gimnasio? ... ¡Zumba! 🐝",
-                "¿Cómo se despiden los programadores? ... ¡Adi-OS! 🖥️"
+                "¿Qué le dice un GIF a un JPG? ... ¡Anímate hombre! 😂",
+                "¿Por qué los programadores prefieren el modo oscuro? ... ¡Porque la luz atrae a los bugs! 🐛",
+                "¡Toc Toc! ... ¿Quién es? ... ¡Java! ... ¡Java quién? ... ¡Java a funcionar, lo prometo! ☕"
             ];
             responseText = chistes[Math.floor(Math.random() * chistes.length)];
         }
+
+        // ======================================================
+        // 🧱 NIVEL 3: EL MURO (RESPUESTA POR DEFECTO RESTRINGIDA)
+        // ======================================================
         else {
-            responseText = "¡Hola! Estás en **Tralecto**, el rincón donde el café se convierte en código mágico. 🚀 Hacemos Webs, Apps y Videojuegos épicos. \n\nCuéntame tu idea y **déjanos tu nombre y correo**; prometemos no enviarte spam aburrido.";
+            // Si llega aquí, es porque preguntó algo que NO tiene que ver con lo anterior.
+            // En lugar de intentar responder cualquier cosa, lo devolvemos al carril.
+            
+            if (userName) {
+                responseText = `Disculpa **${userName}**, mi inteligencia está enfocada 100% en **Ingeniería de Software**. 🚧\n\nNo puedo opinar sobre ese tema, pero soy un experto diseñando **Apps, Webs y Videojuegos**. ¿Tienes alguna duda técnica?`;
+            } else {
+                responseText = "Mi red neuronal está entrenada exclusivamente para **Desarrollo de Software**. 🚧\n\nNo tengo información sobre eso, pero pregúntame sobre cómo crear tu propia App o Videojuego y con gusto te ayudo.";
+            }
         }
 
-        // GUARDAR O ACTUALIZAR LA CONVERSACIÓN
+        // 4. GUARDADO EN BASE DE DATOS
         await Chat.findOneAndUpdate(
             { sessionId: sessionId },
             { 
@@ -83,7 +134,7 @@ app.post('/api/chat', async (req, res) => {
 
     } catch (error) {
         console.error("Error:", error);
-        res.status(500).json({ error: "¡Ups! Mi cerebro de silicio tuvo un hipo." });
+        res.status(500).json({ error: "Error interno del servidor." });
     }
 });
 
