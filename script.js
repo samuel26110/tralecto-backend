@@ -1,17 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Almacenamiento de la lógica de idioma
+    // ======================================================
+    // 1. CONFIGURACIÓN INICIAL Y SESIÓN
+    // ======================================================
+    
+    // Generar ID de Sesión para el Chatbot (Para que recuerde la conversación)
+    if (!localStorage.getItem('tralecto_chat_session')) {
+        localStorage.setItem('tralecto_chat_session', 'sess_' + Math.random().toString(36).substr(2, 9));
+    }
+    const sessionId = localStorage.getItem('tralecto_chat_session');
+
+    // Estado del idioma
     let currentLang = 'es';
 
-    // ------------------------------------
-    // 3. BOTÓN Y MENÚ DE IDIOMA FLOTANTE (LÓGICA CENTRAL)
-    // ------------------------------------
+    // ======================================================
+    // 2. SISTEMA DE IDIOMAS (Tus traducciones originales)
+    // ======================================================
     const langButton = document.getElementById('lang-button');
     const langOptions = document.getElementById('lang-options');
     const langLinks = document.querySelectorAll('.language-options-float a'); 
 
-    // ** 3.1. DICCIONARIO DE TRADUCCIONES **
-    // Incluye claves para index.html, proceso.html y login.html
     const translations = {
         'es': {
             // == GENERALES / INDEX.HTML ==
@@ -36,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
             serviciosTitle: 'Servicios que Ofrecemos',
             servMovilTitle: 'Desarrollo Móvil', servMovilText: 'Aplicaciones nativas e híbridas (iOS y Android) optimizadas para rendimiento y experiencia de usuario.',
             servWebTitle: 'Plataformas Web', servWebText: 'Creación de sistemas complejos, portales web y APIs escalables con frameworks modernos.',
-            servjuegosTitle: 'Desarollo de juegos', servjuegosText: 'Creamos juegos rpg 2D 3D a tu gustos y con las especificaciones que quieras..',
+            servjuegosTitle: 'Desarrollo de juegos', servjuegosText: 'Creamos juegos rpg 2D 3D a tu gustos y con las especificaciones que quieras..',
             contactTitle: 'Hablemos de su Proyecto',
             contactTagline: 'Complete el formulario y nos pondremos en contacto con usted en menos de 24 horas.',
             contactPhoneLabel: 'Teléfono:', contactEmailLabel: 'Correo Electrónico:',
@@ -61,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
             processTagline: 'Nuestro proceso está diseñado para minimizar riesgos y maximizar la entrega de valor, garantizando calidad en cada etapa.',
             processCardDefaultTitle: 'Seleccione un paso',
             processCardDefaultText: 'Haga clic en cualquiera de los círculos de la ruta para ver una descripción detallada de lo que sucede en esa fase de su proyecto.',
-            // Pasos del Proceso
             step1Title: '1. Descubrimiento y Alcance', step1Detail: 'Definición de requisitos, análisis de viabilidad y delimitación del alcance del proyecto. Esto asegura que todos estamos alineados con el objetivo final.',
             step2Title: '2. Planificación y Diseño (UX/UI)', step2Detail: 'Creación de la arquitectura del software, flujos de usuario (UX) y maquetas visuales (UI). Es el plano que guía la construcción.',
             step3Title: '3. Desarrollo por Sprints', step3Detail: 'Codificación ágil y modular, entregando funcionalidades operativas en ciclos cortos. Máxima transparencia y adaptabilidad.',
@@ -70,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
             processHubTitle: 'Ciclo Ágil'
         },
         'en': {
-            // == GENERALES / INDEX.HTML ==
             pageTitle: 'Tralecto: Your Compass in Software Development',
             btnClientAccess: 'Client Access',
             btnDevRoute: 'Development Route',
@@ -117,7 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
             processTagline: 'Our process is designed to minimize risks and maximize value delivery, ensuring quality at every stage.',
             processCardDefaultTitle: 'Select a step',
             processCardDefaultText: 'Click on any of the circles on the route to see a detailed description of what happens in that phase of your project.',
-            // Pasos del Proceso
             step1Title: '1. Discovery and Scope', step1Detail: 'Definition of requirements, feasibility analysis, and project scope definition. This ensures we are all aligned with the final objective.',
             step2Title: '2. Planning and Design (UX/UI)', step2Detail: 'Creation of the software architecture, user flows (UX), and visual mockups (UI). It is the blueprint that guides construction.',
             step3Title: '3. Development by Sprints', step3Detail: 'Agile and modular coding, delivering operational features in short cycles. Maximum transparency and adaptability.',
@@ -155,7 +160,6 @@ document.addEventListener('DOMContentLoaded', function() {
             phName: 'Seu Nome', phEmail: 'Seu Email', phMessage: 'Como podemos ajudar? (Detalhe seu projeto)',
             btnSend: 'Enviar Consulta',
             footerText: '© 2025 Tralecto. Todos os direitos reservados.',
-
             // == LOGIN.HTML ==
             loginTitle: 'Acesso Cliente | Tralecto',
             loginPanelTitle: 'Seu Portal de Desenvolvimento de Software',
@@ -166,14 +170,12 @@ document.addEventListener('DOMContentLoaded', function() {
             btnLogin: 'Acessar', btnShowRegister: 'Criar uma nova conta',
             registerSubtitle: 'Registro', phRepeatPass: 'Repetir Senha',
             btnRegister: 'Registrar', btnShowLogin: 'Eu já tenho uma conta',
-
             // == PROCESO.HTML ==
             processTitle: 'Rota de Desenvolvimento de Software | Tralecto',
             processHeroTitle: 'Rota de Desenvolvimento de Software',
             processTagline: 'Nosso processo é projetado para minimizar riscos e maximizar a entrega de valor, garantindo qualidade em todas as etapas.',
             processCardDefaultTitle: 'Selecione uma etapa',
             processCardDefaultText: 'Clique em qualquer um dos círculos da rota para ver uma descrição detalhada do que acontece nessa fase do seu projeto.',
-            // Pasos del Proceso
             step1Title: '1. Descoberta e Escopo', step1Detail: 'Definição de requisitos, análise de viabilidade e delimitação do escopo do projeto. Isso garante que todos estejamos alinhados com o objetivo final.',
             step2Title: '2. Planejamento e Design (UX/UI)', step2Detail: 'Criação da arquitetura do software, fluxos de usuário (UX) e modelos visuais (UI). É o plano que guia a construção.',
             step3Title: '3. Desenvolvimento por Sprints', step3Detail: 'Codificação ágil e modular, entregando funcionalidades operacionais em ciclos curtos. Máxima transparência e adaptabilidade.',
@@ -211,7 +213,6 @@ document.addEventListener('DOMContentLoaded', function() {
             phName: '您的姓名', phEmail: '您的邮箱', phMessage: '我们如何帮助您？（详细说明您的项目）',
             btnSend: '发送咨询',
             footerText: '© 2025 Tralecto. 版权所有。',
-
             // == LOGIN.HTML ==
             loginTitle: '客户登录 | Tralecto',
             loginPanelTitle: '您的软件开发门户',
@@ -222,14 +223,12 @@ document.addEventListener('DOMContentLoaded', function() {
             btnLogin: '访问', btnShowRegister: '创建新账户',
             registerSubtitle: '注册', phRepeatPass: '重复密码',
             btnRegister: '注册', btnShowLogin: '我已有账户',
-
             // == PROCESO.HTML ==
             processTitle: '软件开发路径 | Tralecto',
             processHeroTitle: '软件开发路径',
             processTagline: '我们的流程旨在最大限度地降低风险并提高价值交付，确保每个阶段的质量。',
             processCardDefaultTitle: '选择一个步骤',
             processCardDefaultText: '点击路径上的任意圆圈，查看该项目阶段发生的事情的详细描述。',
-            // Pasos del Proceso
             step1Title: '1. 发现与范围', step1Detail: '需求定义、可行性分析和项目范围划定。这确保了我们都与最终目标保持一致。',
             step2Title: '2. 规划与设计 (UX/UI)', step2Detail: '创建软件架构、用户流程 (UX) 和视觉模型 (UI)。这是指导构建的蓝图。',
             step3Title: '3. 迭代开发 (Sprints)', step3Detail: '敏捷和模块化编码，在短期周期内交付可操作功能。最大限度的透明度和适应性。',
@@ -246,9 +245,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 1. Traducir el TÍTULO de la página
         const titleElement = document.querySelector('title');
-        const titleKey = titleElement.getAttribute('data-key');
-        if (titleKey && translations[lang] && translations[lang][titleKey]) {
-            titleElement.textContent = translations[lang][titleKey];
+        if (titleElement) {
+            const titleKey = titleElement.getAttribute('data-key');
+            if (titleKey && translations[lang] && translations[lang][titleKey]) {
+                titleElement.textContent = translations[lang][titleKey];
+            }
         }
 
         // 2. Recorrer todos los demás elementos marcados con el atributo data-key
@@ -269,14 +270,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Si estamos en la página de proceso, actualiza la tarjeta de detalle a la traducción por defecto
-        if (document.getElementById('process-detail')) {
-            // Llama a la lógica para actualizar la tarjeta de proceso al idioma actual
-            // Esto asegura que la tarjeta por defecto se muestre en el idioma correcto
+        if (typeof updateProcessDetailCardDefault === 'function') {
             updateProcessDetailCardDefault();
         }
     }
 
-    // Exportar la función getTranslation para interactive-process.js
+    // Exportar la función getTranslation para scripts externos
     window.getTranslation = function(key) {
         return translations[currentLang] ? translations[currentLang][key] : '';
     };
@@ -284,9 +283,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar la página con el idioma por defecto
     translatePage('es');
 
-
+    // Lógica visual del botón de idiomas
     if (langButton && langOptions) {
-        // ... (lógica de mostrar/ocultar menú de idioma) ...
         langButton.addEventListener('click', function(e) {
             e.stopPropagation();
             langOptions.classList.toggle('show');
@@ -304,53 +302,212 @@ document.addEventListener('DOMContentLoaded', function() {
                 const newLang = this.getAttribute('data-lang');
                 translatePage(newLang);
                 langOptions.classList.remove('show');
-                console.log(`Idioma cambiado a: ${newLang}`);
             });
         });
     }
 
-
-    // ------------------------------------
-    // 4. LÓGICA ESPECÍFICA DE LOGIN.HTML
-    // ------------------------------------
+    // ======================================================
+    // 3. SISTEMA DE LOGIN Y REGISTRO (CONECTADO AL BACKEND)
+    // ======================================================
+    
     const loginView = document.getElementById('login-view');
     const registerView = document.getElementById('register-view');
     const showRegisterBtn = document.getElementById('show-register');
     const showLoginBtn = document.getElementById('show-login');
+    
+    // Selectores de los formularios
+    const loginForm = document.querySelector('#login-view .login-form');
+    const registerForm = document.querySelector('#register-view .login-form');
 
-    if (loginView && registerView) {
+    // --- ANIMACIÓN DE CAMBIO ENTRE VISTAS ---
+    if (loginView && registerView && showRegisterBtn && showLoginBtn) {
         function toggleView(show, hide) {
             hide.style.opacity = '0';
             setTimeout(() => {
                 hide.style.display = 'none';
                 show.style.display = 'block';
-                setTimeout(() => {
-                    show.style.opacity = '1';
-                }, 10);
+                setTimeout(() => { show.style.opacity = '1'; }, 10);
             }, 300);
         }
 
+        // Establecer estado inicial
         loginView.style.transition = 'opacity 0.3s ease-in-out';
         registerView.style.transition = 'opacity 0.3s ease-in-out';
-        loginView.style.opacity = '1';
+        loginView.style.display = 'block';
+        registerView.style.display = 'none';
 
-        showRegisterBtn.addEventListener('click', () => {
+        showRegisterBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             toggleView(registerView, loginView);
         });
 
-        showLoginBtn.addEventListener('click', () => {
+        showLoginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             toggleView(loginView, registerView);
         });
     }
 
-    // ------------------------------------
-    // 5. LÓGICA AUXILIAR DE PROCESO.HTML
-    // ------------------------------------
-    // Función para actualizar el contenido de la tarjeta de detalle a los textos por defecto
+    // --- LÓGICA DE LOGIN (ENVIAR A API) ---
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = loginForm.querySelector('button');
+            const inputs = loginForm.querySelectorAll('input');
+            
+            // Tu HTML Login tiene 2 inputs: [0]Usuario/Email, [1]Pass
+            const email = inputs[0].value.trim();
+            const password = inputs[1].value.trim();
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'login', email, password })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    localStorage.setItem('tralecto_uid', data.userId);
+                    localStorage.setItem('tralecto_role', data.role);
+                    localStorage.setItem('tralecto_name', data.name);
+                    
+                    // Redirección
+                    if (data.role === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'dashboard.html';
+                    }
+                } else {
+                    alert("⚠️ " + (data.error || "Credenciales incorrectas"));
+                    btn.textContent = 'Acceder';
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error(error);
+                alert("❌ Error de conexión. Revisa tu internet.");
+                btn.textContent = 'Acceder';
+                btn.disabled = false;
+            }
+        });
+    }
+
+    // --- LÓGICA DE REGISTRO (ENVIAR A API) ---
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = registerForm.querySelector('button');
+            const inputs = registerForm.querySelectorAll('input');
+
+            // Tu HTML Registro tiene 3 inputs:
+            // [0] = Usuario/Correo
+            // [1] = Contraseña
+            // [2] = Repetir Contraseña
+            
+            const email = inputs[0].value.trim();
+            const password = inputs[1].value.trim();
+            const repeatPass = inputs[2].value.trim();
+            
+            // Extraer nombre del correo (antes del @)
+            const name = email.includes('@') ? email.split('@')[0] : email;
+
+            if (password !== repeatPass) {
+                alert("⛔ Las contraseñas no coinciden.");
+                return;
+            }
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        action: 'register', 
+                        email: email, 
+                        password: password, 
+                        name: name 
+                    })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    localStorage.setItem('tralecto_uid', data.userId);
+                    localStorage.setItem('tralecto_name', data.name);
+                    alert("✅ ¡Cuenta creada! Bienvenido a Tralecto.");
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert("⚠️ " + data.error);
+                    btn.textContent = 'Registrarse';
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error(error);
+                alert("❌ Error al registrarse.");
+                btn.textContent = 'Registrarse';
+                btn.disabled = false;
+            }
+        });
+    }
+
+    // ======================================================
+    // 4. CHATBOT (LOGICA DE ENVÍO)
+    // ======================================================
+    const chatInput = document.getElementById('chatbot-input-field');
+    const chatSend = document.getElementById('chatbot-send-btn');
+    const chatMessages = document.getElementById('chatbot-messages');
+
+    if (chatInput && chatSend && chatMessages) {
+        async function sendChatMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // 1. Mostrar mensaje usuario
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user';
+            userDiv.innerText = text;
+            chatMessages.appendChild(userDiv);
+            chatInput.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // 2. Indicador escribiendo...
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message bot';
+            loadingDiv.innerText = '...';
+            chatMessages.appendChild(loadingDiv);
+
+            try {
+                // 3. Enviar al backend
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text, sessionId: sessionId })
+                });
+                const data = await res.json();
+                
+                // 4. Mostrar respuesta del bot
+                loadingDiv.innerHTML = data.response; // Usamos innerHTML para formato (negritas, etc)
+            } catch (error) {
+                loadingDiv.innerText = "Error de conexión 🔌";
+            }
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        chatSend.addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+    }
+
+    // ======================================================
+    // 5. LÓGICA AUXILIAR DE PROCESO.HTML (Si existe)
+    // ======================================================
     window.updateProcessDetailCardDefault = function() {
         const detailCard = document.getElementById('process-detail');
         if (detailCard) {
-             // Utiliza la función global de traducción
             const defaultTitle = window.getTranslation('processCardDefaultTitle');
             const defaultDetail = window.getTranslation('processCardDefaultText');
 
@@ -360,5 +517,5 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         }
     };
-    
-}); // Cierre de DOMContentLoaded
+
+});
