@@ -1,14 +1,18 @@
 [build]
   functions = "netlify/functions"
 
-# Redirección del Chat (NO TOCAR)
 [[redirects]]
   from = "/api/chat"
   to = "/.netlify/functions/chat"
   status = 200
 
-# Redirección de Usuarios (LO NUEVO)
 [[redirects]]
   from = "/api/auth"
   to = "/.netlify/functions/auth"
+  status = 200
+
+# AGREGA ESTA NUEVA:
+[[redirects]]
+  from = "/api/leads"
+  to = "/.netlify/functions/leads"
   status = 200
