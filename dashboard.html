@@ -3,51 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Proyecto | Tralecto</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Mi Espacio | Tralecto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #f4f4f9; font-family: 'Poppins', sans-serif; }
-        .dash-container { max-width: 800px; margin: 50px auto; padding: 20px; }
-        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .progress-track { background: #eee; height: 25px; border-radius: 20px; margin-top: 20px; overflow: hidden; }
-        .progress-fill { background: #6a11cb; height: 100%; width: 0%; color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: width 1s; }
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333;
+        }
+
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); }
+        
+        /* Layout Principal */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: #1a1a2e;
+            color: white;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .logo { font-size: 24px; font-weight: bold; margin-bottom: 40px; color: #fff; text-decoration: none; display: block; }
+        .menu-item {
+            display: flex; align-items: center; padding: 15px;
+            color: #a0a0a0; text-decoration: none; border-radius: 10px;
+            transition: 0.3s; margin-bottom: 5px;
+        }
+        .menu-item:hover, .menu-item.active { background: rgba(255,255,255,0.1); color: white; }
+        .menu-item i { margin-right: 10px; width: 20px; text-align: center; }
+
+        /* Contenido Principal */
+        .main-content { padding: 40px; }
+        
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .welcome h1 { margin: 0; font-size: 28px; }
+        .welcome p { color: #666; margin: 5px 0 0; }
+
+        /* ESTADO DEL PROYECTO (La magia) */
+        .project-status-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(37, 117, 252, 0.3);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Decoración de fondo */
+        .project-status-card::after {
+            content: '\f135'; /* Icono cohete */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: -20px; bottom: -40px;
+            font-size: 150px;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+        }
+
+        /* Estado: NO HAY PROYECTO (Inicial) */
+        #empty-state { display: none; }
+        .cta-buttons { display: flex; gap: 15px; margin-top: 20px; }
+        .btn-cta {
+            background: white; color: var(--primary); padding: 12px 25px;
+            border-radius: 8px; text-decoration: none; font-weight: bold;
+            display: inline-flex; align-items: center; transition: transform 0.2s;
+        }
+        .btn-cta:hover { transform: translateY(-3px); }
+
+        /* Estado: PROYECTO ACTIVO */
+        #active-state { display: none; }
+        .progress-track {
+            background: rgba(255,255,255,0.2);
+            height: 10px; border-radius: 10px; margin: 20px 0; overflow: hidden;
+        }
+        .progress-fill {
+            background: #00d2ff; height: 100%; width: 0%;
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Grid de Servicios / Info */
+        .bento-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
+        }
+        .card {
+            background: var(--card-bg); padding: 25px; border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: 0.3s;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .card-icon { 
+            width: 50px; height: 50px; background: #f0f0f0; 
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; color: var(--primary); margin-bottom: 15px;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .sidebar { display: none; } /* Podrías hacer un menú hamburguesa aquí */
+        }
     </style>
 </head>
 <body>
-    <div class="dash-container">
-        <div class="card">
-            <h1>Hola, <span id="user-name">Cargando...</span> 👋</h1>
-            <p>Estado de tu proyecto: <strong id="status-text">...</strong></p>
-            
-            <div class="progress-track">
-                <div id="progress-bar" class="progress-fill">0%</div>
+
+    <div class="dashboard-grid">
+        <div class="sidebar">
+            <div>
+                <a href="index.html" class="logo">Tralecto.</a>
+                <nav>
+                    <a href="#" class="menu-item active"><i class="fas fa-home"></i> Inicio</a>
+                    <a href="#" class="menu-item"><i class="fas fa-project-diagram"></i> Mis Proyectos</a>
+                    <a href="#" class="menu-item"><i class="fas fa-file-invoice-dollar"></i> Facturación</a>
+                    <a href="#" class="menu-item"><i class="fas fa-headset"></i> Soporte</a>
+                </nav>
             </div>
+            <a href="#" onclick="logout()" class="menu-item"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+        </div>
+
+        <div class="main-content">
             
-            <button onclick="logout()" style="margin-top: 30px; padding: 10px 20px; border: none; background: #ff4757; color: white; border-radius: 5px; cursor: pointer;">Cerrar Sesión</button>
+            <div class="header">
+                <div class="welcome">
+                    <h1>Hola, <span id="user-name">Cliente</span> 👋</h1>
+                    <p>Bienvenido a tu centro de control.</p>
+                </div>
+                <div style="background: white; padding: 10px; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <i class="fas fa-user-circle" style="font-size: 30px; color: #ccc;"></i>
+                </div>
+            </div>
+
+            <div class="project-status-card">
+                
+                <div id="empty-state">
+                    <h2>🚀 Comencemos tu próximo gran proyecto</h2>
+                    <p style="opacity: 0.9; margin-bottom: 25px; max-width: 600px;">
+                        Aún no tienes un proyecto activo en desarrollo. Cuéntanos qué tienes en mente y nuestro equipo preparará una propuesta en 24h.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="https://wa.me/573173482939?text=Hola,%20quiero%20cotizar%20una%20Web" target="_blank" class="btn-cta"><i class="fas fa-globe" style="margin-right:8px"></i> Web</a>
+                        <a href="https://wa.me/573173482939?text=Hola,%20quiero%20cotizar%20una%20App" target="_blank" class="btn-cta"><i class="fas fa-mobile-alt" style="margin-right:8px"></i> App</a>
+                        <a href="https://wa.me/573173482939?text=Hola,%20quiero%20cotizar%20un%20Juego" target="_blank" class="btn-cta"><i class="fas fa-gamepad" style="margin-right:8px"></i> Juego</a>
+                    </div>
+                </div>
+
+                <div id="active-state">
+                    <h2 id="project-title">Desarrollo de Software</h2>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                        <div>
+                            <span style="font-size: 40px; font-weight: bold;" id="progress-percent">0%</span>
+                            <span style="opacity: 0.8; margin-left: 10px;" id="status-text">Analizando...</span>
+                        </div>
+                    </div>
+                    <div class="progress-track">
+                        <div id="progress-bar" class="progress-fill"></div>
+                    </div>
+                    <p style="font-size: 14px; opacity: 0.8;"><i class="fas fa-clock"></i> Última actualización: Hace un momento</p>
+                </div>
+
+            </div>
+
+            <h3 style="margin-bottom: 20px;">Servicios disponibles</h3>
+            <div class="bento-grid">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-file-contract"></i></div>
+                    <h4>Documentación</h4>
+                    <p style="font-size: 13px; color: #666;">Accede a tus contratos y propuestas técnicas.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-bug"></i></div>
+                    <h4>Reportar Error</h4>
+                    <p style="font-size: 13px; color: #666;">¿Encontraste un fallo? Avísanos aquí.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-comments"></i></div>
+                    <h4>Chat Directo</h4>
+                    <p style="font-size: 13px; color: #666;">Habla con tu Project Manager asignado.</p>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const userId = localStorage.getItem('tralecto_uid');
-            if (!userId) { window.location.href = 'login.html'; return; }
+            const userName = localStorage.getItem('tralecto_name'); // Recuperamos el nombre guardado en login
+            
+            if (!userId) {
+                window.location.href = 'login.html';
+                return;
+            }
 
-            const res = await fetch('/api/auth', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'get_dashboard', userId })
-            });
-            const data = await res.json();
+            // Poner nombre inmediatamente si lo tenemos en localStorage
+            if(userName) {
+                document.getElementById('user-name').textContent = userName;
+            }
 
-            document.getElementById('user-name').textContent = data.name;
-            document.getElementById('status-text').textContent = data.status;
-            document.getElementById('progress-bar').style.width = data.progress + '%';
-            document.getElementById('progress-bar').textContent = data.progress + '%';
+            try {
+                // Obtener datos frescos del servidor
+                const res = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'get_dashboard', userId })
+                });
+                const data = await res.json();
+
+                // Actualizar nombre si vino del server
+                if(data.name) document.getElementById('user-name').textContent = data.name;
+
+                // LÓGICA DE ESTADOS
+                const progress = data.progress || 5;
+                const status = data.status || 'Análisis Inicial';
+
+                const emptyState = document.getElementById('empty-state');
+                const activeState = document.getElementById('active-state');
+
+                // Si el progreso es menor al 10% Y el estado es genérico, mostramos la "Venta"
+                if (progress < 10 && (status === 'Análisis Inicial' || status === 'Nuevo Proyecto')) {
+                    emptyState.style.display = 'block';
+                    activeState.style.display = 'none';
+                } else {
+                    // Si ya empezó el proyecto real
+                    emptyState.style.display = 'none';
+                    activeState.style.display = 'block';
+                    
+                    document.getElementById('project-title').textContent = data.projectName || "Proyecto en curso";
+                    document.getElementById('status-text').textContent = status;
+                    document.getElementById('progress-percent').textContent = progress + '%';
+                    
+                    setTimeout(() => {
+                        document.getElementById('progress-bar').style.width = progress + '%';
+                    }, 100);
+                }
+
+            } catch (error) {
+                console.error("Error cargando dashboard:", error);
+            }
         });
 
         function logout() {
             localStorage.clear();
-            window.location.href = 'login.html';
+            window.location.href = 'index.html'; // Volver al inicio
         }
     </script>
 </body>
