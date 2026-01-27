@@ -1,10 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // ======================================================
-    // 1. CONFIGURACIÓN INICIAL Y SESIÓN
+    // 0. LÓGICA DE SESIÓN PERSISTENTE (NUEVO) 🕵️‍♂️
+    // ======================================================
+    // Verifica si ya hay un usuario guardado en el navegador
+    const storedUid = localStorage.getItem('tralecto_uid');
+    const storedName = localStorage.getItem('tralecto_name');
+
+    // Si existe usuario, modificamos la interfaz inmediatamente
+    if (storedUid && storedName) {
+        // Buscamos todos los enlaces que lleven al login (botones del menú)
+        const loginLinks = document.querySelectorAll('a[href="login.html"]');
+        
+        loginLinks.forEach(link => {
+            // Cambiamos el texto y el destino
+            link.innerHTML = `<i class="fas fa-user-circle"></i> Hola, ${storedName}`;
+            link.href = 'dashboard.html';
+            // Opcional: Añadir una clase para dar estilo diferente si quieres
+            link.classList.add('is-logged-in'); 
+        });
+        console.log(`✅ Sesión detectada: Bienvenido de nuevo, ${storedName}`);
+    }
+
+    // ======================================================
+    // 1. CONFIGURACIÓN INICIAL DEL CHAT
     // ======================================================
     
-    // Generar ID de Sesión para el Chatbot (Para que recuerde la conversación)
     if (!localStorage.getItem('tralecto_chat_session')) {
         localStorage.setItem('tralecto_chat_session', 'sess_' + Math.random().toString(36).substr(2, 9));
     }
@@ -71,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
             processCardDefaultText: 'Haga clic en cualquiera de los círculos de la ruta para ver una descripción detallada de lo que sucede en esa fase de su proyecto.',
             step1Title: '1. Descubrimiento y Alcance', step1Detail: 'Definición de requisitos, análisis de viabilidad y delimitación del alcance del proyecto. Esto asegura que todos estamos alineados con el objetivo final.',
             step2Title: '2. Planificación y Diseño (UX/UI)', step2Detail: 'Creación de la arquitectura del software, flujos de usuario (UX) y maquetas visuales (UI). Es el plano que guía la construcción.',
-            step3Title: '3. Desarrollo por Sprints', step3Detail: 'Codificación ágil y modular, entregando funcionalidades operativas en ciclos cortos. Máxima transparencia y adaptabilidad.',
+            step3Title: '3. Desarrollo por Sprints', step3Detail: 'Codificação ágil y modular, entregando funcionalidades operativas en ciclos cortos. Máxima transparencia y adaptabilidad.',
             step4Title: '4. Aseguramiento de Calidad (QA)', step4Detail: 'Pruebas rigurosas de seguridad, rendimiento y funcionalidad. Detectamos y corregimos errores para un producto robusto.',
             step5Title: '5. Despliegue, Soporte y Monitoreo', step5Detail: 'Lanzamiento final en producción, capacitación del equipo y soporte constante para la estabilidad a largo plazo.',
             processHubTitle: 'Ciclo Ágil'
@@ -105,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
             phName: 'Your Name', phEmail: 'Your Email', phMessage: 'How can we help you? (Detail your project)',
             btnSend: 'Send Inquiry',
             footerText: '© 2025 Tralecto. All rights reserved.',
-
             // == LOGIN.HTML ==
             loginTitle: 'Client Access | Tralecto',
             loginPanelTitle: 'Your Software Development Portal',
@@ -116,7 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
             btnLogin: 'Access', btnShowRegister: 'Create a new account',
             registerSubtitle: 'Registration', phRepeatPass: 'Repeat Password',
             btnRegister: 'Register', btnShowLogin: 'I already have an account',
-
             // == PROCESO.HTML ==
             processTitle: 'Software Development Route | Tralecto',
             processHeroTitle: 'Software Development Route',
@@ -454,7 +473,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ======================================================
-    // 4. CHATBOT (LOGICA DE ENVÍO)
+    // 4. CHATBOT (LOGICA DE ENVÍO CON IDENTIDAD) 🧠
     // ======================================================
     const chatInput = document.getElementById('chatbot-input-field');
     const chatSend = document.getElementById('chatbot-send-btn');
@@ -479,17 +498,24 @@ document.addEventListener('DOMContentLoaded', function() {
             loadingDiv.innerText = '...';
             chatMessages.appendChild(loadingDiv);
 
+            // 3. RECUPERAR NOMBRE SI EXISTE
+            const currentUserName = localStorage.getItem('tralecto_name');
+
             try {
-                // 3. Enviar al backend
+                // 4. Enviar al backend (Incluyendo el nombre)
                 const res = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text, sessionId: sessionId })
+                    body: JSON.stringify({ 
+                        message: text, 
+                        sessionId: sessionId,
+                        userName: currentUserName || null // <--- AQUÍ LE DECIMOS QUIÉN HABLA
+                    })
                 });
                 const data = await res.json();
                 
-                // 4. Mostrar respuesta del bot
-                loadingDiv.innerHTML = data.response; // Usamos innerHTML para formato (negritas, etc)
+                // 5. Mostrar respuesta del bot
+                loadingDiv.innerHTML = data.response; 
             } catch (error) {
                 loadingDiv.innerText = "Error de conexión 🔌";
             }
