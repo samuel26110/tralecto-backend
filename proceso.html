@@ -4,26 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-key="processTitle">Ruta de Desarrollo de Software | Tralecto</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Estilos específicos para la página oscura de proceso */
-        body { background-color: var(--login-dark-bg); } 
-        .section-title { color: var(--accent-color); border-bottom-color: var(--primary-color); }
-        .process-content-overlay h2, .process-content-overlay p { color: var(--white); }
-        .process-detail-card h3 { color: var(--primary-color); }
-        .process-detail-card p { color: var(--dark-text); }
-        .tagline { margin: 0 auto 50px; }
-    </style>
 </head>
 <body>
 
-    <header class="header" id="mainHeader" style="background-color: rgba(255, 255, 255, 0.95);">
+    <header class="header" id="mainHeader">
         <div class="container">
             <a href="login.html" class="btn primary-btn header-btn header-login-btn" data-key="btnClientAccess">Acceso Clientes</a>
+            <img src="assets/images/imagen_circular_recortada.png" alt="Logo de Tralecto" class="header-logo-img">
             <h1 class="logo"><a href="index.html">Tralecto</a></h1>
-            <a href="index.html" class="btn secondary-btn header-btn header-proceso-btn" data-key="navInicio">Inicio</a>
+            <a href="index.html" class="btn secondary-btn header-btn header-proceso-btn" data-key="navInicio"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
+            <img src="assets/images/SENA.png" alt="Logo SENA" class="header-sena-logo">
         </div>
     </header>
 
@@ -93,8 +86,8 @@
         <a href="https://instagram.com/tu_usuario" target="_blank" class="float-btn instagram-btn" title="Síguenos en Instagram"><i class="fab fa-instagram"></i></a>
     </div>
 
-    <script src="script.js"></script>
-    <script src="interactive-process.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/interactive-process.js"></script>
 
 </body>
 </html>

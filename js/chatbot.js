@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getBotResponse(userMessage) {
         inputField.disabled = true;
-        const typingIndicator = addMessage('...', 'bot'); 
+        const typingIndicator = addMessage('<span class="typing-dots"><span></span><span></span><span></span></span>', 'bot'); 
         
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
 

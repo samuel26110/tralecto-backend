@@ -544,4 +544,50 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    // ======================================================
+    // 6. SPOTLIGHT DINÁMICO EN TARJETAS (Interactividad Cursor)
+    // ======================================================
+    const interactiveCards = document.querySelectorAll('.service-card, .mision-vision-grid .card, .value-item');
+    
+    interactiveCards.forEach(card => {
+        // Asegurar que exista la capa spotlight
+        if (!card.querySelector('.card-spotlight')) {
+            const spotlight = document.createElement('div');
+            spotlight.className = 'card-spotlight';
+            card.appendChild(spotlight);
+        }
+
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+
+    // ======================================================
+    // 7. SCROLL REVEAL SUAVE (INTERSECTION OBSERVER NATIVO)
+    // ======================================================
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    
+    if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.12,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    } else {
+        // Fallback si el navegador no soporta IntersectionObserver
+        revealElements.forEach(el => el.classList.add('revealed'));
+    }
+
 });
