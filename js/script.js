@@ -590,4 +590,45 @@ document.addEventListener('DOMContentLoaded', function() {
         revealElements.forEach(el => el.classList.add('revealed'));
     }
 
+    // ======================================================
+    // 8. MENÚ MÓVIL HAMBURGUESA INTERACTIVO
+    // ======================================================
+    const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
+    const mainNav = document.getElementById('mainNav');
+
+    if (mobileMenuBtn && mainNav) {
+        // Clonar accesos de clientes y proceso dentro del menú móvil si aún no están
+        if (!mainNav.querySelector('.mobile-nav-actions')) {
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'mobile-nav-actions';
+            actionsDiv.innerHTML = `
+                <a href="login.html" class="btn primary-btn"><i class="fas fa-user-circle"></i> Acceso Clientes</a>
+                <a href="proceso.html" class="btn secondary-btn"><i class="fas fa-route"></i> Ruta de Desarrollo</a>
+            `;
+            mainNav.appendChild(actionsDiv);
+        }
+
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = mainNav.classList.toggle('mobile-active');
+            mobileMenuBtn.innerHTML = isOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Cerrar menú al hacer clic en un enlace de navegación
+        mainNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('mobile-active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Cerrar al hacer clic fuera del menú
+        document.addEventListener('click', (e) => {
+            if (!mainNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mainNav.classList.remove('mobile-active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+    }
+
 });
