@@ -1479,6 +1479,10 @@ footer {
     box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
 }
 
+.mobile-nav-actions {
+    display: none;
+}
+
 /* ----------------------------------------------------
    RESPONSIVIDAD MÓVIL Y TABLETS (COMPLETO)
    ---------------------------------------------------- */

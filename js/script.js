@@ -597,19 +597,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainNav = document.getElementById('mainNav');
 
     if (mobileMenuBtn && mainNav) {
-        // Clonar accesos de clientes y proceso dentro del menú móvil si aún no están
-        if (!mainNav.querySelector('.mobile-nav-actions')) {
-            const actionsDiv = document.createElement('div');
-            actionsDiv.className = 'mobile-nav-actions';
-            actionsDiv.innerHTML = `
-                <a href="login.html" class="btn primary-btn"><i class="fas fa-user-circle"></i> Acceso Clientes</a>
-                <a href="proceso.html" class="btn secondary-btn"><i class="fas fa-route"></i> Ruta de Desarrollo</a>
-            `;
-            mainNav.appendChild(actionsDiv);
-        }
-
         mobileMenuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+            
+            // Si está abriendo en móvil y no tiene los botones de acceso, crearlos
+            if (window.innerWidth <= 992 && !mainNav.querySelector('.mobile-nav-actions')) {
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'mobile-nav-actions';
+                actionsDiv.innerHTML = `
+                    <a href="login.html" class="btn primary-btn"><i class="fas fa-user-circle"></i> Acceso Clientes</a>
+                    <a href="proceso.html" class="btn secondary-btn"><i class="fas fa-route"></i> Ruta de Desarrollo</a>
+                `;
+                mainNav.appendChild(actionsDiv);
+            }
+
             const isOpen = mainNav.classList.toggle('mobile-active');
             mobileMenuBtn.innerHTML = isOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
         });
