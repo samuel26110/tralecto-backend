@@ -1782,3 +1782,148 @@ footer {
 .reveal-delay-4 { transition-delay: 0.4s; }
 .reveal-delay-5 { transition-delay: 0.5s; }
 .reveal-delay-6 { transition-delay: 0.6s; }
+
+/* ============================================================
+   SECCIÓN DE COSTOS MENSUALES
+   ============================================================ */
+.costos-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(6, 14, 28, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 229, 255, 0.08);
+}
+
+.costos-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 32px;
+    background: linear-gradient(90deg, rgba(3, 83, 164, 0.6) 0%, rgba(0, 119, 182, 0.35) 100%);
+    border-bottom: 2px solid rgba(0, 229, 255, 0.35);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cyan-accent);
+}
+
+.costos-table {
+    display: flex;
+    flex-direction: column;
+}
+
+.costos-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: #cbd5e1;
+    font-size: 0.97rem;
+    transition: background 0.2s ease;
+    gap: 20px;
+}
+
+.costos-row:hover {
+    background: rgba(0, 229, 255, 0.06);
+}
+
+.costos-row:last-child {
+    border-bottom: none;
+}
+
+.costos-icon {
+    color: var(--cyan-accent);
+    margin-right: 10px;
+    width: 16px;
+    text-align: center;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 4px rgba(0, 229, 255, 0.4));
+}
+
+.costos-amount {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: #e2e8f0;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+}
+
+/* Fila de Total */
+.costos-row.costos-total {
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.12) 0%, rgba(3, 83, 164, 0.18) 100%);
+    border-top: 2px solid rgba(0, 229, 255, 0.3);
+    border-bottom: none;
+    padding: 22px 32px;
+    margin-top: 4px;
+}
+
+.costos-row.costos-total span:first-child {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    font-family: var(--font-heading);
+}
+
+.total-amount {
+    font-size: 1.15rem !important;
+    color: var(--cyan-accent) !important;
+    text-shadow: 0 0 14px rgba(0, 229, 255, 0.5);
+}
+
+/* Nota al pie */
+.costos-footnote {
+    padding: 18px 32px;
+    margin: 0;
+    border-top: 1px solid rgba(0, 229, 255, 0.15);
+    background: rgba(0, 229, 255, 0.04);
+    color: #94a3b8;
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
+.costos-footnote strong {
+    color: #e2e8f0;
+}
+
+/* Responsive para costos en móvil */
+@media (max-width: 768px) {
+    .costos-header-bar {
+        padding: 14px 18px;
+        font-size: 0.82rem;
+        gap: 10px;
+    }
+
+    .costos-row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 14px 18px;
+        gap: 6px;
+    }
+
+    .costos-amount {
+        font-size: 0.98rem;
+        color: var(--cyan-accent);
+        padding-left: 26px;
+    }
+
+    .costos-row.costos-total {
+        padding: 16px 18px;
+    }
+
+    .total-amount {
+        padding-left: 26px;
+    }
+
+    .costos-footnote {
+        padding: 14px 18px;
+        font-size: 0.84rem;
+    }
+}
